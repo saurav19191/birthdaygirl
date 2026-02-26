@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Memories 19191 · image on alternate pages</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Italianno&family=Montserrat:wght@200;300;400;500&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        coverBeige: '#E8DDC8',
+                        forestGreen: '#2D4B3E',
+                        pageIvory: '#F9F7F2',
+                    },
+                    fontFamily: {
+                        script: ['Italianno', 'cursive'],
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        :root {
+            --book-width: min(420px, 92vw);
+            --book-height: min(620px, 130vw);
+            --page-curl: 22px;
+        }
+
+        body {
+            background-color: #dbcfc0;
+            background-image: radial-gradient(circle at 20% 30%, rgba(250,245,230,0.6) 1px, transparent 1px);
+            background-size: 32px 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 12px 8px;
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            transition: background 0.3s;
+        }
+
+        /* small screen hint – visible only below 500px */
+        .rotate-hint {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: rgba(240, 235, 220, 0.75);
+            backdrop-filter: blur(8px);
+            padding: 12px 24px;
+            border-radius: 60px;
+            margin-bottom: 16px;
+            font-size: 1.2rem;
+            color: #3a4a3a;
+            border: 1px solid #ddcfb5;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            white-space: nowrap;
+            animation: gentlePulse 2.2s infinite ease-in-out;
+            letter-spacing: 0.5px;
+        }
+        .rotate-hint span {
+            font-size: 2rem;
+            display: inline-block;
+            animation: tilt 1.8s infinite;
+        }
+
+        @keyframes gentlePulse {
+            0% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.02); background: rgba(245, 240, 225, 0.9); }
+            100% { opacity: 0.8; transform: scale(1); }
+        }
+        @keyframes tilt {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(20deg); }
+            75% { transform: rotate(-20deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        @media (max-width: 500px) {
+            .rotate-hint {
+                display: flex;
+            }
+        }
+
+        .book-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .book {
+            position: relative;
+            width: var(--book-width);
+            height: var(--book-height);
+            max-width: 460px;
+            max-height: 720px;
+            transition: transform 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+            perspective: 2500px;
+            box-shadow: 0 25px 35px rgba(209, 202, 202, 0.25);
+            border-radius: 2px 6px 6px 2px;
+            margin: 8px auto;
+        }
+
+        .paper {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            transform-origin: left center;
+            transform-style: preserve-3d;
+            transition: transform 1.2s cubic-bezier(0.3, 0.8, 0.4, 1.1);
+            pointer-events: none;
+            box-shadow: 2px 2px 12px rgba(95, 94, 94, 0.1);
+            border-radius: 0 4px 4px 0;
+        }
+
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            background-color: #F9F7F2;
+            border-radius: 0 3px 3px 0;
+            box-shadow: inset -2px 0 6px rgba(0,0,0,0.02);
+            padding: 0;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .back {
+            transform: rotateY(180deg);
+        }
+
+        .paper.flipped {
+            transform: rotateY(-180deg);
+        }
+
+        .front::before, .back::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: var(--page-curl);
+            height: var(--page-curl);
+            background: linear-gradient(225deg, rgba(150,130,100,0.1) 0%, rgba(255,250,240,0.2) 70%);
+            pointer-events: none;
+            z-index: 20;
+            opacity: 0.25;
+            border-top-left-radius: 60% 40%;
+            box-shadow: -2px -2px 5px rgba(0,0,0,0.03);
+        }
+
+        .spine-strip {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 12px;
+            background: linear-gradient(to right, #b8a78d, #cbbca4, #b8a78d);
+            z-index: 25;
+            box-shadow: inset -1px 0 4px rgba(0,0,0,0.1);
+            border-radius: 2px 0 0 2px;
+        }
+
+        .cover-local {
+            background-image: url('assets/cover.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: #E8DDC8;
+        }
+
+        .plain-end {
+            background: #e5dbcd;
+            background-image: repeating-linear-gradient(45deg, rgba(220,200,170,0.2) 0px, rgba(220,200,170,0.2) 12px, transparent 12px, transparent 24px);
+        }
+
+        .nav-bar {
+            display: flex;
+            gap: 30px;
+            margin-top: 4px;
+            margin-bottom: 4px;
+            justify-content: center;
+            align-items: center;
+            background: rgba(250, 245, 235, 0.85);
+            backdrop-filter: blur(6px);
+            padding: 12px 30px;
+            border-radius: 60px;
+            box-shadow: 0 6px 18px rgba(100,70,40,0.12);
+            border: 1px solid rgba(255,250,230,0.9);
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            font-size: 2.2rem;
+            font-weight: 300;
+            color: #5a6e5a;
+            cursor: pointer;
+            width: 64px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 40px;
+            transition: background 0.2s, transform 0.1s;
+            background: rgba(90, 110, 90, 0.06);
+            line-height: 1;
+            padding-bottom: 8px;
+        }
+        .nav-btn:hover {
+            background: rgba(90, 110, 90, 0.16);
+            transform: scale(1.02);
+        }
+        .nav-btn:active {
+            transform: scale(0.96);
+        }
+
+        /* SCROLLABLE CONTAINER STYLES */
+        .page-content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .poem-scroll {
+            flex: 1;
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 20px 16px;
+            scrollbar-width: thin;
+            scrollbar-color: #bba88b #f5efe3;
+            -webkit-overflow-scrolling: touch;
+            max-height: 100%;
+            box-sizing: border-box;
+        }
+
+        .poem-scroll::-webkit-scrollbar {
+            width: 5px;
+        }
+        .poem-scroll::-webkit-scrollbar-track {
+            background: #f5efe3;
+        }
+        .poem-scroll::-webkit-scrollbar-thumb {
+            background: #bba88b;
+            border-radius: 8px;
+        }
+
+        .poem-text {
+            line-height: 1.85;
+            white-space: pre-line;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            margin-bottom: 20px;
+        }
+
+        .poem-title {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #c9baa5;
+            padding-bottom: 0.5rem;
+            width: 100%;
+            color: #4a4a3a;
+        }
+
+        .font-script { 
+            line-height: 1.2; 
+        }
+
+        /* Responsive */
+        @media (min-width: 800px) and (max-width: 1400px) {
+            :root {
+                --book-width: 440px;
+                --book-height: 720px;
+            }
+            .nav-btn {
+                width: 72px;
+                height: 72px;
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            :root {
+                --book-width: 340px;
+                --book-height: 580px;
+                --page-curl: 20px;
+            }
+            .nav-bar {
+                gap: 20px;
+                padding: 8px 20px;
+            }
+            .nav-btn {
+                width: 56px;
+                height: 56px;
+                font-size: 2rem;
+            }
+            .poem-scroll {
+                padding: 16px 12px;
+            }
+            .poem-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 380px) {
+            :root {
+                --book-width: 280px;
+                --book-height: 500px;
+            }
+            .poem-title {
+                font-size: 1.3rem;
+            }
+        }
+
+        .front, .back { background-color: #faf7f0; }
+        .plain-end { background: #e5dbcd; }
+
+        .front .poem-scroll, .back .poem-scroll {
+            pointer-events: auto;
+        }
+        .cover-local {
+            pointer-events: auto;
+        }
+        /* Love text specific styling */
+        .love-inscription {
+            font-family: 'Italianno', cursive;
+            font-size: 3.2rem;
+            line-height: 1;
+            color: #6f4e3e;
+            margin-top: 0.5rem;
+            opacity: 0.8;
+        }
+        @media (max-width: 450px) {
+            .love-inscription {
+                font-size: 2.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="book-wrapper">
+    <!-- rotation hint – appears only on narrow screens with animation -->
+    <div class="rotate-hint">
+        <span>📱</span> turn your screen <span>↻</span>
+    </div>
+
+    <div id="book" class="book relative">
+        <!-- PAPER 1 (cover + inside front) -->
+        <div id="p1" class="paper" style="z-index:10;">
+            <div class="front cover-local"></div>
+            <div class="back flex items-center justify-center">
+                <div class="page-content">
+                    <div class="poem-scroll flex items-center justify-center">
+                        <p class="font-script text-4xl text-stone-400">· ✦ ·</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAPER 2 (inscription + image) -->
+        <div id="p2" class="paper" style="z-index:9;">
+            <div class="front flex items-center justify-center p-8">
+                <div class="page-content flex items-center justify-center">
+                    <p class="font-script text-5xl text-stone-600 leading-relaxed text-center">To the girl,<br>to the woman,<br>to my love</p>
+                </div>
+            </div>
+            <div class="back flex items-center justify-center p-6">
+                <div class="page-content flex items-center justify-center">
+                    <img src="https://images.unsplash.com/photo-1596438459194-f275f413d6ff?q=80&w=400" alt="Lily and Orchids" class="max-w-[80%] max-h-[80%] object-contain grayscale opacity-80">
+                </div>
+            </div>
+        </div>
+
+        <!-- PAPER 3 (poem 1 & 2) - poem 1 front (scroll), poem 2 back (image) -->
+        <div id="p3" class="paper" style="z-index:8;">
+            <div class="front">
+                <div class="page-content">
+                    <div class="poem-scroll">
+                        <h3 class="poem-title">I.</h3>
+                        <p class="poem-text">
+                            You asked for a poem about rain.<br>
+                            I wrote about the way your sleeve<br>
+                            brushed mine on the ferry.<br>
+                            That was twenty years ago.<br>
+                            Still, I haven't finished.<br>
+                            <br>
+                            The rain keeps falling,<br>
+                            on the harbour, on the roofs,<br>
+                            on the cars that carry strangers<br>
+                            to places we'll never go.<br>
+                            <br>
+                            I think of you whenever<br>
+                            the forecast says "persistent rain."<br>
+                            Such a persistent word, "persistent."<br>
+                            Like the way I persist in remembering<br>
+                            the exact shade of your wet coat,<br>
+                            the way you shook your hair<br>
+                            like a dog, laughing,<br>
+                            and I pretended to mind.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="back flex items-center justify-center p-6">
+                <div class="page-content flex items-center justify-center">
+                    <img src="https://images.unsplash.com/photo-1507525425510-1fad3fb0bf72?q=80&w=400" alt="Rain on window" class="max-w-[80%] max-h-[80%] object-contain grayscale opacity-80">
+                </div>
+            </div>
+        </div>
+
+        <!-- PAPER 4 (poem 3 & 4) - poem 3 front (scroll), poem 4 back (image) -->
+        <div id="p4" class="paper" style="z-index:7;">
+            <div class="front">
+                <div class="page-content">
+                    <div class="poem-scroll">
+                        <h3 class="poem-title">III.</h3>
+                        <p class="poem-text">
+                            The neighbour's dog digs under the fence again.<br>
+                            You'd laugh, say he's looking for the bones we buried.<br>
+                            We never buried any bones.<br>
+                            Maybe he smells all the things we didn't say.<br>
+                            <br>
+                            All those unsaid things —<br>
+                            they must be somewhere.<br>
+                            Under the soil, in the roots,<br>
+                            working their way up through stems.<br>
+                            <br>
+                            The dog digs furiously,<br>
+                            throws dirt behind him.<br>
+                            He's looking for the words<br>
+                            we swallowed, the apologies<br>
+                            we left to rot, the I-love-yous<br>
+                            we thought didn't need saying.<br>
+                            <br>
+                            He hasn't found them yet.<br>
+                            Neither have I.<br>
+                            But every spring, something<br>
+                            blooms where he digs —<br>
+                            small white flowers,<br>
+                            nameless, persistent.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="back flex items-center justify-center p-6">
+                <div class="page-content flex items-center justify-center">
+                    <img src="https://images.unsplash.com/photo-1551892589-865f69869476?q=80&w=400" alt="Old jar with buttons" class="max-w-[80%] max-h-[80%] object-contain grayscale opacity-80">
+                </div>
+            </div>
+        </div>
+
+        <!-- PAPER 5 (poem 5 & 6) - poem 5 front (scroll), poem 6 back (image) -->
+        <div id="p5" class="paper" style="z-index:6;">
+            <div class="front">
+                <div class="page-content">
+                    <div class="poem-scroll">
+                        <h3 class="poem-title">V.</h3>
+                        <p class="poem-text">
+                            The recipe is torn — half a teaspoon?<br>
+                            I add a pinch of memory, a guess.<br>
+                            The cake still rises,<br>
+                            but it tastes like the year you left.<br>
+                            Sweet, but with a sinkhole in the middle.<br>
+                            <br>
+                            I've made it every year since.<br>
+                            2015: too much salt, like tears.<br>
+                            2016: burnt on the bottom,<br>
+                            charcoal, like the news that year.<br>
+                            2017: perfect outside, raw inside —<br>
+                            I gave it to the birds.<br>
+                            <br>
+                            This year, I follow the ghost<br>
+                            of your handwriting, the faded<br>
+                            'add a little love' in the margin.<br>
+                            I add love. I add butter.<br>
+                            I cream them together<br>
+                            until they're light, until they're one.<br>
+                            <br>
+                            The cake rises evenly.<br>
+                            I eat a slice. It's good.<br>
+                            The sinkhole is smaller this year.<br>
+                            Or maybe I've just learned<br>
+                            to eat around it.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="back flex items-center justify-center p-6">
+                <div class="page-content flex items-center justify-center">
+                    <img src="https://images.unsplash.com/photo-1605127089780-9d81d2d7d363?q=80&w=400" alt="River stones" class="max-w-[80%] max-h-[80%] object-contain grayscale opacity-80">
+                </div>
+            </div>
+        </div>
+
+        <!-- PAPER 6 (poem 7 & 8) - poem 7 front (scroll), poem 8 back (image) -->
+        <div id="p6" class="paper" style="z-index:5;">
+            <div class="front">
+                <div class="page-content">
+                    <div class="poem-scroll">
+                        <h3 class="poem-title">VII.</h3>
+                        <p class="poem-text">
+                            Grandmother's thimble fits my pinky.<br>
+                            It's silver, worn thin as paper.<br>
+                            I think of her fingers, pushing needles<br>
+                            through linen, through hours,<br>
+                            through two wars. I sew a button.<br>
+                            The thimble is warm.<br>
+                            <br>
+                            She survived the siege by sewing,<br>
+                            hemming officers' trousers for bread,<br>
+                            darning socks for soup.<br>
+                            The thimble protected her,<br>
+                            a small silver helmet<br>
+                            for the fingertip that pushed<br>
+                            through thread, through time.<br>
+                            <br>
+                            Now it protects me<br>
+                            from nothing more than a needle's prick.<br>
+                            But when I wear it, I feel her —<br>
+                            the steady pulse of her hand,<br>
+                            the rhythm of stitch after stitch,<br>
+                            the way she'd pause to look out the window<br>
+                            at whatever war was passing.<br>
+                            <br>
+                            I sew a button. It holds.<br>
+                            The thimble gleams on my pinky,<br>
+                            a small inheritance of perseverance,<br>
+                            passed down through blood, through thread,<br>
+                            through the simple, radical act<br>
+                            of mending what is torn.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="back flex items-center justify-center p-6">
+                <div class="page-content flex items-center justify-center">
+                    <img src="https://images.unsplash.com/photo-1517241034903-9a4c3ab12f00?q=80&w=400" alt="Small bird on branch" class="max-w-[80%] max-h-[80%] object-contain grayscale opacity-80">
+                </div>
+            </div>
+        </div>
+
+        <!-- PAPER 7 (poem 9 & 10) - poem 9 front (scroll), poem 10 back (image) -->
+        <div id="p7" class="paper" style="z-index:4;">
+            <div class="front">
+                <div class="page-content">
+                    <div class="poem-scroll">
+                        <h3 class="poem-title">IX.</h3>
+                        <p class="poem-text">
+                            The key doesn't fit any lock in the house.<br>
+                            I keep it because your fingers touched it.<br>
+                            Some afternoons I hold it, walk from room to room,<br>
+                            trying doors that have always been open.<br>
+                            <br>
+                            It doesn't fit the front door,<br>
+                            the back door, the bedroom,<br>
+                            the small lock on the cabinet<br>
+                            where you kept your letters.<br>
+                            <br>
+                            I've tried the shed, the garage,<br>
+                            the rusty lock on the garden gate.<br>
+                            Nothing.<br>
+                            <br>
+                            Maybe it fits a lock that no longer exists —<br>
+                            a suitcase lost on a train in 1973,<br>
+                            a diary you kept when you were twelve,<br>
+                            a box buried in the yard of a house<br>
+                            that was torn down to build a road.<br>
+                            <br>
+                            Or maybe it doesn't fit anything.<br>
+                            Maybe it's just a key,<br>
+                            beautiful in its uselessness,<br>
+                            warm from your fingers,<br>
+                            warm now from mine.<br>
+                            <br>
+                            I put it back in the drawer.<br>
+                            It lies among the paperclips,<br>
+                            the spare batteries, the stamps,<br>
+                            waiting for a lock<br>
+                            that will never appear.<br>
+                            Waiting, like me,<br>
+                            for a click that won't come.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="back flex items-center justify-center p-6">
+                <div class="page-content flex items-center justify-center">
+                    <img src="https://images.unsplash.com/photo-1534778101976-62847782c213?q=80&w=400" alt="Grey heron by water" class="max-w-[80%] max-h-[80%] object-contain grayscale opacity-80">
+                </div>
+            </div>
+        </div>
+
+        <!-- PAPER 8 (last sheet – plain end paper) with LOVE below ✧ -->
+        <div id="p8" class="paper" style="z-index:3;">
+            <div class="front plain-end flex items-center justify-center">
+                <div class="page-content flex items-center justify-center">
+                    <span class="text-stone-400/40 text-8xl select-none">✻</span>
+                </div>
+            </div>
+            <div class="back plain-end flex flex-col items-center justify-center">
+                <!-- main star + "Love" exactly as requested -->
+                <span class="text-stone-400/30 text-9xl select-none">✧</span>
+                <span class="love-inscription select-none">Love</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- navigation buttons (prev / next) -->
+    <div class="nav-bar">
+        <button class="nav-btn" id="prevBtn" aria-label="previous page">←</button>
+        <span class="text-stone-500 font-serif text-sm tracking-widest opacity-70">19191</span>
+        <button class="nav-btn" id="nextBtn" aria-label="next page">→</button>
+    </div>
+    <div class="text-xs text-stone-500 mt-2 tracking-widest text-center px-2">buttons only — odd pages scroll, even pages show images</div>
+</div>
+
+<script>
+    (function() {
+        const papers = [
+            document.getElementById("p1"),
+            document.getElementById("p2"),
+            document.getElementById("p3"),
+            document.getElementById("p4"),
+            document.getElementById("p5"),
+            document.getElementById("p6"),
+            document.getElementById("p7"),
+            document.getElementById("p8")
+        ];
+        const numOfPapers = papers.length;
+        const maxLocation = numOfPapers + 1;
+
+        let currentLocation = 1;
+
+        function resetZindex() {
+            for (let i = 0; i < papers.length; i++) {
+                papers[i].style.zIndex = (papers.length - i);
+            }
+        }
+        resetZindex();
+
+        function openBook() {
+            document.getElementById("book").style.transform = "translateX(35%)";
+        }
+        
+        function closeBook(atBeginning) {
+            document.getElementById("book").style.transform = atBeginning ? "translateX(0%)" : "translateX(75%)";
+        }
+
+        function applyState() {
+            papers.forEach(p => p.classList.remove("flipped"));
+
+            if (currentLocation === 1) {
+                resetZindex();
+                closeBook(true);
+            }
+            else if (currentLocation === maxLocation) {
+                papers.forEach(p => p.classList.add("flipped"));
+                for (let i = 0; i < papers.length; i++) {
+                    papers[i].style.zIndex = i + 1;
+                }
+                closeBook(false);
+            }
+            else {
+                for (let i = 0; i < papers.length; i++) {
+                    if (i < currentLocation - 1) {
+                        papers[i].classList.add("flipped");
+                        papers[i].style.zIndex = 1;
+                    } else {
+                        papers[i].classList.remove("flipped");
+                        papers[i].style.zIndex = papers.length - i;
+                    }
+                }
+                openBook();
+            }
+        }
+
+        function goNext() {
+            if (currentLocation < maxLocation) {
+                currentLocation++;
+                applyState();
+            } else {
+                currentLocation = 1;
+                applyState();
+            }
+        }
+
+        function goPrev() {
+            if (currentLocation > 1) {
+                currentLocation--;
+                applyState();
+            } else {
+                currentLocation = maxLocation;
+                applyState();
+            }
+        }
+
+        document.getElementById("prevBtn").addEventListener("click", goPrev);
+        document.getElementById("nextBtn").addEventListener("click", goNext);
+
+        applyState();
+    })();
+</script>
+
+<style>
+    .front, .back { background-color: #fdfaf5; }
+    .plain-end { background: #eae1d2; }
+    .cover-local { background-color: #e8ddc8; }
+    .spine-strip { background: linear-gradient(to right, #cbb99e, #ddd0bb, #cbb99e); }
+    body { background-color: #e7dccc; }
+    
+    .page-content {
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .poem-scroll {
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        max-height: 100%;
+    }
+    
+    .poem-text:last-child {
+        padding-bottom: 30px;
+    }
+</style>
+</body>
+</html>
