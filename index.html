@@ -3,241 +3,229 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Memories 19191 · image on alternate pages</title>
+    <title>for the woman i love · birthday 19191</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Italianno&family=Montserrat:wght@200;300;400;500&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
-    
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {
-                        coverBeige: '#E8DDC8',
-                        forestGreen: '#2D4B3E',
-                        pageIvory: '#F9F7F2',
-                    },
-                    fontFamily: {
-                        script: ['Italianno', 'cursive'],
-                        serif: ['Playfair Display', 'serif'],
-                        sans: ['Montserrat', 'sans-serif'],
-                    },
+                    colors: { coverBeige: '#E8DDC8', forestGreen: '#2D4B3E', pageIvory: '#F9F7F2' },
+                    fontFamily: { script: ['Italianno', 'cursive'], serif: ['Playfair Display', 'serif'], sans: ['Montserrat', 'sans-serif'] },
                 }
             }
         }
     </script>
     <style>
-        * {
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-        :root {
-            --book-width: min(420px, 92vw);
-            --book-height: min(620px, 130vw);
-            --page-curl: 22px;
-        }
-
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        :root { --book-width: min(420px, 92vw); --book-height: min(620px, 130vw); --page-curl: 22px; }
         body {
-            background-color: #dbcfc0;
-            background-image: radial-gradient(circle at 20% 30%, rgba(250,245,230,0.6) 1px, transparent 1px);
-            background-size: 32px 32px;
+            background-color: #f1e3d3;
+            background-image: radial-gradient(circle at 30% 40%, rgba(235,215,200,0.5) 2px, transparent 2px);
+            background-size: 40px 40px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            min-height: 100vh; margin: 0; padding: 12px 8px; font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden; transition: background 0.3s; position: relative;
+        }
+        /* LOADER unchanged */
+        #loader-overlay {
+            position: fixed; inset: 0; background: #f8f1e7; z-index: 9999;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: opacity 0.8s ease; pointer-events: none;
+        }
+        .loader-img {
+            width: 200px; height: 200px; object-fit: cover; border-radius: 40px;
+            box-shadow: 0 20px 30px -10px rgba(100,70,50,0.3);
+            animation: softZoom 2.2s infinite alternate ease-in-out;
+            border: 6px solid rgba(255,255,255,0.9); outline: 2px solid #e5ccbb; outline-offset: 2px;
+        }
+        @keyframes softZoom { 0% { transform: scale(0.98); } 100% { transform: scale(1.1); } }
+        .loader-caption { font-family: 'Italianno', cursive; font-size: 3rem; color: #8b6f5c; margin-top: 0.5rem; text-shadow: 2px 2px 0 rgba(255,240,230,0.8); }
+        .loader-bar-bg { width: 220px; height: 10px; background: #e1cfbc; border-radius: 30px; margin: 20px 0 10px; overflow: hidden; }
+        .loader-bar-fill { width: 0%; height: 100%; background: #c99e8d; border-radius: 30px; transition: width 2.8s cubic-bezier(0.22, 0.98, 0.52, 1); }
+
+        .side-bar {
+            position: fixed; top: 30%; width: 60px; height: 180px; background: #ffeae0;
+            border-radius: 60px; box-shadow: 0 10px 20px rgba(120,70,50,0.15);
+            display: flex; flex-direction: column; align-items: center; justify-content: space-around;
+            padding: 18px 0; cursor: pointer; z-index: 500; border: 2px solid #fcd5c0;
+            backdrop-filter: blur(2px); transition: transform 0.2s ease;
+        }
+        .side-bar.left { left: 8px; } .side-bar.right { right: 8px; }
+        .bar-emoji { font-size: 2rem; filter: drop-shadow(0 4px 4px rgba(0,0,0,0.05)); animation: float 3s infinite; }
+        @keyframes float { 0% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
+        /* --- MAIN FOLDER POPUP increased height --- */
+        .folder-popup {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9);
+            width: min(750px, 94%); max-height: 90vh;
+            background: #fff9f2; border-radius: 40px;
+            box-shadow: 0 35px 60px -10px #ab8e78; z-index: 3000; padding: 26px 24px;
+            opacity: 0; visibility: hidden; transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+            border: 3px solid #ffe3d0; overflow-y: auto;
+        }
+        .folder-popup.show { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
+        .popup-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px dashed #e8c8b0; padding-bottom: 10px; margin-bottom: 18px; }
+        .popup-header h3 { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: #775e4e; }
+        .close-popup { background: none; border: none; font-size: 2.8rem; cursor: pointer; color: #a28d7a; line-height: 1; }
+
+        .folder-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 20px 16px; }
+        .folder-item {
+            background: #f5ede4; border-radius: 30px 8px 30px 8px; padding: 16px 6px; text-align: center;
+            transition: all 0.2s; box-shadow: 0 6px 0 #dbbca5; border: 1px solid #ffe1cf; cursor: pointer;
+        }
+        .folder-item:hover { transform: translateY(-4px); box-shadow: 0 10px 0 #dbbca5; }
+        .folder-emoji { font-size: 3rem; } .folder-title { font-size: 0.95rem; font-weight: 500; margin-top: 8px; color: #6b4f3e; }
+
+        .folder-detail-page { display: none; animation: fadeIn 0.2s ease; }
+        .folder-detail-page.show-page { display: block; }
+        .back-to-grid {
+            background: #eddacb; border: none; border-radius: 40px; padding: 8px 20px; font-size: 1rem;
+            margin-bottom: 22px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+            color: #5b4235; font-weight: 500; border: 1px solid #ffe1d0;
+        }
+
+        .flower-guy-animation {
+            display: flex; align-items: center; gap: 15px; font-size: 3.5rem; background: #fbe9e0;
+            border-radius: 70px; padding: 10px 25px; margin-bottom: 20px; justify-content: center;
+        }
+        .guy-walk { animation: slideFlower 3s infinite alternate ease-in-out; }
+        @keyframes slideFlower { 0% { transform: translateX(-10px); } 100% { transform: translateX(30px); } }
+
+        .music-player-ui, .movie-player-ui {
+            background: #ecd9c6; border-radius: 60px; padding: 15px 20px; display: flex;
+            flex-wrap: wrap; align-items: center; gap: 15px; margin: 15px 0;
+        }
+        .music-player-ui input, .movie-player-ui input { flex: 1; padding: 10px; border-radius: 40px; border: 1px solid #b2957a; background: white; }
+        .music-player-ui button, .movie-player-ui button { background: #b78f77; border: none; color: white; border-radius: 40px; padding: 8px 20px; cursor: pointer; }
+
+        .playlist-songs { list-style: none; padding: 0; margin: 10px 0; }
+        .playlist-songs li {
+            background: #fff0e0; margin: 5px 0; padding: 10px 18px; border-radius: 40px;
+            display: flex; align-items: center; gap: 12px; cursor: pointer; transition: 0.2s;
+            border: 1px solid #ecd3bf;
+        }
+        .playlist-songs li:hover { background: #f2ddcf; transform: translateX(4px); }
+
+        .youtube-embed, .movie-embed { width: 100%; height: 240px; border-radius: 30px; margin: 12px 0; border: none; }
+        .mini-audio { background: #e9cfbd; border-radius: 30px; padding: 12px 20px; margin: 12px 0; }
+
+        /* active you slideshow: increased image height */
+        .slideshow-container {
+            position: relative; width: 100%; border-radius: 40px; overflow: hidden; margin: 20px 0;
+            box-shadow: 0 15px 20px #dbbaa5; background: #f2e3d5; height: 280px;
+        }
+        .slide-img {
+            width: 100%; height: 280px; object-fit: cover; display: none; border-radius: 40px;
+        }
+        .slide-img.active { display: block; animation: fadeSlide 1s; }
+        @keyframes fadeSlide { from { opacity: 0.3; } to { opacity: 1; } }
+
+        /* itinerary step with image on the right */
+        .itinerary-step {
+            background: #fff3e7; border-radius: 60px; padding: 16px 22px; margin: 18px 0;
+            border-left: 12px solid #b5d0b0; animation: stepPop 0.8s ease;
+            display: flex; align-items: center; justify-content: space-between; gap: 20px;
+        }
+        .step-text { flex: 2; font-size: 1.1rem; }
+        .step-img { flex: 1; max-width: 120px; border-radius: 40px; border: 4px solid white; box-shadow: 0 4px 10px #a5856e; }
+        @keyframes stepPop { 0% { transform: scale(0.95); opacity:0; } 100% { transform:scale(1); opacity:1; } }
+
+        /* skincare grid */
+        .skincare-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 20px 0;
+        }
+        .skincare-card {
+            background: #ffe7da; border-radius: 40px 10px 40px 10px; padding: 16px; text-align: center;
+            box-shadow: 0 6px 0 #cfa98b; animation: softGlow 3s infinite alternate;
+        }
+        @keyframes softGlow { 0% { box-shadow: 0 4px 0 #cfa98b; } 100% { box-shadow: 0 8px 0 #b58367; } }
+
+        /* timeline with slower/smoother animation */
+        .timeline-cute {
+            display: flex; flex-direction: column; gap: 20px; margin: 25px 0;
+            border-left: 4px solid #e3b99b; padding-left: 20px;
+        }
+        .timeline-item {
+            background: #fbefe6; border-radius: 30px 8px 30px 8px; padding: 18px 24px;
+            position: relative; animation: smoothPop 1.2s ease-out forwards;
+            box-shadow: 0 2px 10px #edd7cb; opacity:0; transform: translateX(-8px);
+        }
+        .timeline-item .date { font-weight: 600; color: #b05f3c; font-size: 1.5rem; font-family: 'Italianno', cursive; }
+        @keyframes smoothPop {
+            0% { opacity:0; transform: translateX(-20px); }
+            100% { opacity:1; transform: translateX(0); }
+        }
+
+        .home-mood { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin: 20px 0; }
+        .home-card {
+            background: #fef1e7; border-radius: 50px 10px 50px 10px; padding: 18px 12px; width: 130px;
+            text-align: center; box-shadow: 0 10px 0 #e3cbb8; transition: 0.2s; animation: floatHome 3s infinite alternate;
+        }
+        @keyframes floatHome { 0% { transform: translateY(0); } 100% { transform: translateY(-10px); } }
+        .home-emoji { font-size: 3.8rem; filter: drop-shadow(2px 8px 4px #dbb39b); }
+
+        /* game popup unchanged */
+        .game-popup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9); width: min(420px, 90%); background: #fff5ec; border-radius: 70px 20px 70px 20px; box-shadow: 0 45px 65px -8px #977b68; z-index: 3500; padding: 28px 18px 32px; opacity: 0; visibility: hidden; transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.2); border: 3px solid #ffdac8; text-align: center; }
+        .game-popup.show { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
+        .celebrate-kid { font-size: 6rem; animation: bounceKid 0.8s infinite alternate; }
+        @keyframes bounceKid { 0% { transform: translateY(0) rotate(-3deg); } 100% { transform: translateY(-15px) rotate(3deg); } }
+        .game-question { font-family: 'Italianno', cursive; font-size: 3rem; color: #856b59; }
+        .game-buttons { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin: 15px 0; }
+        .game-btn { background: #ecd9cb; border: none; padding: 12px 28px; border-radius: 40px; font-weight: 500; font-size: 1.2rem; color: #5c4132; box-shadow: 0 6px 0 #bc9f8b; cursor: pointer; border: 1px solid #fae1d1; min-width: 140px; }
+        .game-btn:active { transform: translateY(5px); box-shadow: 0 2px 0 #bc9f8b; }
+        .game-btn-no { background: #ded1c5; }
+        .flower-after { font-size: 2.5rem; margin-top: 20px; animation: spinFlower 2s infinite; }
+        @keyframes spinFlower { 0% { transform: rotate(0deg); } 50% { transform: rotate(10deg); } }
+
+        /* book styling - UPDATED with scrolling from reference */
+        .book-wrapper { max-width: 1000px; }
+        .book { position: relative; width: var(--book-width); height: var(--book-height); max-width: 460px; max-height: 720px; transition: transform 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.1); perspective: 2500px; box-shadow: 0 25px 35px rgba(209, 202, 202, 0.25); border-radius: 2px 6px 6px 2px; margin: 8px auto; }
+        .paper { position: absolute; width: 100%; height: 100%; top: 0; left: 0; transform-origin: left center; transform-style: preserve-3d; transition: transform 1.2s cubic-bezier(0.3, 0.8, 0.4, 1.1); pointer-events: none; box-shadow: 2px 2px 12px rgba(95, 94, 94, 0.1); border-radius: 0 4px 4px 0; }
+        .front, .back { position: absolute; width: 100%; height: 100%; top: 0; left: 0; backface-visibility: hidden; display: flex; flex-direction: column; background-color: #F9F7F2; border-radius: 0 3px 3px 0; box-shadow: inset -2px 0 6px rgba(0,0,0,0.02); padding: 0; -webkit-overflow-scrolling: touch; }
+        .back { transform: rotateY(180deg); } .paper.flipped { transform: rotateY(-180deg); }
+        .cover-local { background-image: url('assets/cover.png'); background-size: cover; background-position: center; background-color: #E8DDC8; }
+        .plain-end { background: #e5dbcd; background-image: repeating-linear-gradient(45deg, rgba(220,200,170,0.2) 0px, rgba(220,200,170,0.2) 12px, transparent 12px, transparent 24px); }
+        
+        /* Chapter title styling */
+        .chapter-title {
+            font-family: 'Italianno', cursive;
+            font-size: 4rem;
+            color: #8b6f5c;
+            text-align: center;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 12px 8px;
-            font-family: 'Montserrat', sans-serif;
-            overflow-x: hidden;
-            transition: background 0.3s;
-        }
-
-        /* small screen hint – visible only below 500px */
-        .rotate-hint {
-            display: none;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            background: rgba(240, 235, 220, 0.75);
-            backdrop-filter: blur(8px);
-            padding: 12px 24px;
-            border-radius: 60px;
-            margin-bottom: 16px;
-            font-size: 1.2rem;
-            color: #3a4a3a;
-            border: 1px solid #ddcfb5;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            white-space: nowrap;
-            animation: gentlePulse 2.2s infinite ease-in-out;
-            letter-spacing: 0.5px;
-        }
-        .rotate-hint span {
-            font-size: 2rem;
-            display: inline-block;
-            animation: tilt 1.8s infinite;
-        }
-
-        @keyframes gentlePulse {
-            0% { opacity: 0.8; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.02); background: rgba(245, 240, 225, 0.9); }
-            100% { opacity: 0.8; transform: scale(1); }
-        }
-        @keyframes tilt {
-            0% { transform: rotate(0deg); }
-            25% { transform: rotate(20deg); }
-            75% { transform: rotate(-20deg); }
-            100% { transform: rotate(0deg); }
-        }
-
-        @media (max-width: 500px) {
-            .rotate-hint {
-                display: flex;
-            }
-        }
-
-        .book-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            height: 100%;
             width: 100%;
-            max-width: 1000px;
+            padding: 20px;
+            background: #fdfaf5;
         }
-
-        .book {
-            position: relative;
-            width: var(--book-width);
-            height: var(--book-height);
-            max-width: 460px;
-            max-height: 720px;
-            transition: transform 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.1);
-            perspective: 2500px;
-            box-shadow: 0 25px 35px rgba(209, 202, 202, 0.25);
-            border-radius: 2px 6px 6px 2px;
-            margin: 8px auto;
-        }
-
-        .paper {
-            position: absolute;
+        
+        /* Full-page image styling for back pages */
+        .back .page-content {
             width: 100%;
             height: 100%;
-            top: 0;
-            left: 0;
-            transform-origin: left center;
-            transform-style: preserve-3d;
-            transition: transform 1.2s cubic-bezier(0.3, 0.8, 0.4, 1.1);
-            pointer-events: none;
-            box-shadow: 2px 2px 12px rgba(95, 94, 94, 0.1);
-            border-radius: 0 4px 4px 0;
-        }
-
-        .front, .back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            backface-visibility: hidden;
             display: flex;
-            flex-direction: column;
-            background-color: #F9F7F2;
-            border-radius: 0 3px 3px 0;
-            box-shadow: inset -2px 0 6px rgba(0,0,0,0.02);
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
             padding: 0;
-            -webkit-overflow-scrolling: touch;
         }
-
-        .back {
-            transform: rotateY(180deg);
-        }
-
-        .paper.flipped {
-            transform: rotateY(-180deg);
-        }
-
-        .front::before, .back::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: var(--page-curl);
-            height: var(--page-curl);
-            background: linear-gradient(225deg, rgba(150,130,100,0.1) 0%, rgba(255,250,240,0.2) 70%);
-            pointer-events: none;
-            z-index: 20;
-            opacity: 0.25;
-            border-top-left-radius: 60% 40%;
-            box-shadow: -2px -2px 5px rgba(0,0,0,0.03);
-        }
-
-        .spine-strip {
-            position: absolute;
-            left: 0;
-            top: 0;
+        .back .page-content img {
+            width: 100%;
             height: 100%;
-            width: 12px;
-            background: linear-gradient(to right, #b8a78d, #cbbca4, #b8a78d);
-            z-index: 25;
-            box-shadow: inset -1px 0 4px rgba(0,0,0,0.1);
-            border-radius: 2px 0 0 2px;
+            object-fit: cover;
+            object-position: center;
+            max-width: none;
+            max-height: none;
+            margin: 0;
+            border-radius: 0;
         }
-
-        .cover-local {
-            background-image: url('assets/cover.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-color: #E8DDC8;
-        }
-
-        .plain-end {
-            background: #e5dbcd;
-            background-image: repeating-linear-gradient(45deg, rgba(220,200,170,0.2) 0px, rgba(220,200,170,0.2) 12px, transparent 12px, transparent 24px);
-        }
-
-        .nav-bar {
-            display: flex;
-            gap: 30px;
-            margin-top: 4px;
-            margin-bottom: 4px;
-            justify-content: center;
-            align-items: center;
-            background: rgba(250, 245, 235, 0.85);
-            backdrop-filter: blur(6px);
-            padding: 12px 30px;
-            border-radius: 60px;
-            box-shadow: 0 6px 18px rgba(100,70,40,0.12);
-            border: 1px solid rgba(255,250,230,0.9);
-        }
-
-        .nav-btn {
-            background: none;
-            border: none;
-            font-size: 2.2rem;
-            font-weight: 300;
-            color: #5a6e5a;
-            cursor: pointer;
-            width: 64px;
-            height: 64px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 40px;
-            transition: background 0.2s, transform 0.1s;
-            background: rgba(90, 110, 90, 0.06);
-            line-height: 1;
-            padding-bottom: 8px;
-        }
-        .nav-btn:hover {
-            background: rgba(90, 110, 90, 0.16);
-            transform: scale(1.02);
-        }
-        .nav-btn:active {
-            transform: scale(0.96);
-        }
-
-        /* SCROLLABLE CONTAINER STYLES */
+        
+        /* SCROLLABLE CONTAINER STYLES - from reference */
         .page-content {
             position: relative;
             width: 100%;
@@ -259,6 +247,9 @@
             -webkit-overflow-scrolling: touch;
             max-height: 100%;
             box-sizing: border-box;
+            font-family: 'Playfair Display', serif;
+            line-height: 1.8;
+            background: #fdfaf5;
         }
 
         .poem-scroll::-webkit-scrollbar {
@@ -272,108 +263,85 @@
             border-radius: 8px;
         }
 
-        .poem-text {
-            line-height: 1.85;
-            white-space: pre-line;
-            font-size: clamp(0.9rem, 2.5vw, 1rem);
-            margin-bottom: 20px;
-        }
-
         .poem-title {
             font-family: 'Playfair Display', serif;
             font-style: italic;
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            border-bottom: 1px solid #c9baa5;
-            padding-bottom: 0.5rem;
-            width: 100%;
-            color: #4a4a3a;
+            font-size: 2rem;
+            color: #5d3e2e;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 1px dashed #d4b5a0;
+            padding-bottom: 12px;
+        }
+        
+        .poem-text {
+            font-size: 1rem;
+            line-height: 2;
+            color: #3a2b20;
+            white-space: pre-line;
+            text-align: left;
+            letter-spacing: 0.3px;
+            margin-bottom: 20px;
+        }
+        .poem-text:last-child {
+            padding-bottom: 30px;
+        }
+        .poem-text::first-letter {
+            font-size: 2.5rem;
+            font-family: 'Italianno', cursive;
+            color: #b56444;
+            margin-right: 4px;
+            float: left;
         }
 
-        .font-script { 
-            line-height: 1.2; 
+        .nav-bar { display: flex; gap: 30px; margin-top: 4px; justify-content: center; align-items: center; background: rgba(250, 245, 235, 0.85); backdrop-filter: blur(6px); padding: 12px 30px; border-radius: 60px; box-shadow: 0 6px 18px rgba(100,70,40,0.12); border: 1px solid rgba(255,250,230,0.9); }
+        .nav-btn { background: none; border: none; font-size: 2.2rem; color: #5a6e5a; cursor: pointer; width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; border-radius: 40px; background: rgba(90, 110, 90, 0.06); transition: background 0.2s, transform 0.1s; }
+        .nav-btn:hover { background: rgba(90, 110, 90, 0.16); transform: scale(1.02); }
+        .nav-btn:active { transform: scale(0.96); }
+        .love-inscription { font-family: 'Italianno', cursive; font-size: 3.2rem; color: #6f4e3e; }
+        .birthday-wish-pop {
+            position: fixed; bottom: 20px; left: 20px; background: #ffe8dd; border-radius: 80px 20px 80px 20px;
+            padding: 12px 28px; font-family: 'Italianno', cursive; font-size: 2.5rem; color: #a3583b;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1); z-index: 4000; border: 3px solid white; cursor: pointer;
+            animation: gentleWave 2s infinite;
         }
-
-        /* Responsive */
-        @media (min-width: 800px) and (max-width: 1400px) {
-            :root {
-                --book-width: 440px;
-                --book-height: 720px;
-            }
-            .nav-btn {
-                width: 72px;
-                height: 72px;
-                font-size: 2.5rem;
-            }
-        }
-
-        @media (max-width: 600px) {
-            :root {
-                --book-width: 340px;
-                --book-height: 580px;
-                --page-curl: 20px;
-            }
-            .nav-bar {
-                gap: 20px;
-                padding: 8px 20px;
-            }
-            .nav-btn {
-                width: 56px;
-                height: 56px;
-                font-size: 2rem;
-            }
-            .poem-scroll {
-                padding: 16px 12px;
-            }
-            .poem-title {
-                font-size: 1.5rem;
-            }
-        }
-
-        @media (max-width: 380px) {
-            :root {
-                --book-width: 280px;
-                --book-height: 500px;
-            }
-            .poem-title {
-                font-size: 1.3rem;
-            }
-        }
-
-        .front, .back { background-color: #faf7f0; }
-        .plain-end { background: #e5dbcd; }
-
+        @keyframes gentleWave { 0% { transform: rotate(0deg); } 25% { transform: rotate(2deg); } 75% { transform: rotate(-2deg); } }
+        
+        /* Ensure front/back pages allow scrolling */
         .front .poem-scroll, .back .poem-scroll {
             pointer-events: auto;
         }
-        .cover-local {
-            pointer-events: auto;
-        }
-        /* Love text specific styling */
-        .love-inscription {
-            font-family: 'Italianno', cursive;
-            font-size: 3.2rem;
-            line-height: 1;
-            color: #6f4e3e;
-            margin-top: 0.5rem;
-            opacity: 0.8;
-        }
-        @media (max-width: 450px) {
-            .love-inscription {
-                font-size: 2.6rem;
-            }
+        
+        @media (max-width: 600px) {
+            .poem-scroll { padding: 16px 12px; }
+            .poem-title { font-size: 1.5rem; }
         }
     </style>
 </head>
 <body>
-<div class="book-wrapper">
-    <!-- rotation hint – appears only on narrow screens with animation -->
-    <div class="rotate-hint">
-        <span>📱</span> turn your screen <span>↻</span>
-    </div>
+<div id="loader-overlay"><img src="https://images.unsplash.com/photo-1596438459194-f275f413d6ff?q=80&w=400" class="loader-img"><div class="loader-caption">For the most incredible woman</div><div class="loader-bar-bg"><div class="loader-bar-fill" id="loader-fill"></div></div></div>
+<div class="birthday-wish-pop" id="birthdayWish">🥳 happy 19191 birthday!</div>
+<div class="side-bar left" id="leftBar"><span class="bar-emoji">📁</span><span class="bar-emoji">🌸</span><span class="bar-emoji">🎀</span></div>
+<div class="side-bar right" id="rightBar"><span class="bar-emoji">🐇</span><span class="bar-emoji">❤️</span><span class="bar-emoji">✨</span></div>
 
+<div class="folder-popup" id="folderPopup">
+    <div class="popup-header"><h3>✧ our garden ✧</h3><button class="close-popup" id="closeFolderPopup">&times;</button></div>
+    <div id="folderGridContainer" class="folder-grid"></div>
+    <div id="folderDetailPage" class="folder-detail-page">
+        <button class="back-to-grid" id="backToGridBtn">← back to folders</button>
+        <div id="detailPageContent"></div>
+    </div>
+</div>
+
+<div class="game-popup" id="gamePopup">
+    <div class="celebrate-kid" id="kidIcon">🧒🎈</div>
+    <div class="game-question" id="gameQuestion">will you be mine?</div>
+    <div class="game-buttons"><button class="game-btn" id="yesBtn">yes</button><button class="game-btn game-btn-no" id="noBtn">Never in a million years</button></div>
+    <div id="flowerContainer" class="flower-after" style="display: none;">🌸🌼🌸</div>
+</div>
+
+<div class="book-wrapper">
     <div id="book" class="book relative">
-        <!-- PAPER 1 (cover + inside front) -->
         <div id="p1" class="paper" style="z-index:10;">
             <div class="front cover-local"></div>
             <div class="back flex items-center justify-center">
@@ -384,358 +352,1833 @@
                 </div>
             </div>
         </div>
-
-        <!-- PAPER 2 (inscription + image) -->
+        
         <div id="p2" class="paper" style="z-index:9;">
             <div class="front flex items-center justify-center p-8">
                 <div class="page-content flex items-center justify-center">
                     <p class="font-script text-5xl text-stone-600 leading-relaxed text-center">To the girl,<br>to the woman,<br>to my love</p>
                 </div>
             </div>
-            <div class="back flex items-center justify-center p-6">
-                <div class="page-content flex items-center justify-center">
-                    <img src="https://images.unsplash.com/photo-1596438459194-f275f413d6ff?q=80&w=400" alt="Lily and Orchids" class="max-w-[80%] max-h-[80%] object-contain grayscale opacity-80">
+            <div class="back">
+                <div class="page-content">
+                    <img src="assets/Blank.png" alt="Romantic" style="width:100%; height:100%; object-fit:cover; object-position:center;">
                 </div>
             </div>
         </div>
-
-        <!-- PAPER 3 (poem 1 & 2) - poem 1 front (scroll), poem 2 back (image) -->
+        
+        <!-- Chapter A) Spark - Chapter Page -->
         <div id="p3" class="paper" style="z-index:8;">
             <div class="front">
                 <div class="page-content">
-                    <div class="poem-scroll">
-                        <h3 class="poem-title">I.</h3>
-                        <p class="poem-text">
-                            You asked for a poem about rain.<br>
-                            I wrote about the way your sleeve<br>
-                            brushed mine on the ferry.<br>
-                            That was twenty years ago.<br>
-                            Still, I haven't finished.<br>
-                            <br>
-                            The rain keeps falling,<br>
-                            on the harbour, on the roofs,<br>
-                            on the cars that carry strangers<br>
-                            to places we'll never go.<br>
-                            <br>
-                            I think of you whenever<br>
-                            the forecast says "persistent rain."<br>
-                            Such a persistent word, "persistent."<br>
-                            Like the way I persist in remembering<br>
-                            the exact shade of your wet coat,<br>
-                            the way you shook your hair<br>
-                            like a dog, laughing,<br>
-                            and I pretended to mind.
-                        </p>
-                    </div>
+                    <div class="chapter-title">Spark</div>
                 </div>
             </div>
-            <div class="back flex items-center justify-center p-6">
-                <div class="page-content flex items-center justify-center">
-                    <img src="https://images.unsplash.com/photo-1507525425510-1fad3fb0bf72?q=80&w=400" alt="Rain on window" class="max-w-[80%] max-h-[80%] object-contain grayscale opacity-80">
+            <div class="back">
+                <div class="page-content">
+                    <img src="assets/Crush.png" alt="Spark" style="width:100%; height:100%; object-fit:cover; object-position:center;">
                 </div>
             </div>
         </div>
-
-        <!-- PAPER 4 (poem 3 & 4) - poem 3 front (scroll), poem 4 back (image) -->
+        
+        <!-- Poem 1: Crush -->
         <div id="p4" class="paper" style="z-index:7;">
             <div class="front">
                 <div class="page-content">
                     <div class="poem-scroll">
-                        <h3 class="poem-title">III.</h3>
+                        <h3 class="poem-title">Crush</h3>
                         <p class="poem-text">
-                            The neighbour's dog digs under the fence again.<br>
-                            You'd laugh, say he's looking for the bones we buried.<br>
-                            We never buried any bones.<br>
-                            Maybe he smells all the things we didn't say.<br>
-                            <br>
-                            All those unsaid things —<br>
-                            they must be somewhere.<br>
-                            Under the soil, in the roots,<br>
-                            working their way up through stems.<br>
-                            <br>
-                            The dog digs furiously,<br>
-                            throws dirt behind him.<br>
-                            He's looking for the words<br>
-                            we swallowed, the apologies<br>
-                            we left to rot, the I-love-yous<br>
-                            we thought didn't need saying.<br>
-                            <br>
-                            He hasn't found them yet.<br>
-                            Neither have I.<br>
-                            But every spring, something<br>
-                            blooms where he digs —<br>
-                            small white flowers,<br>
-                            nameless, persistent.
+I have a crush on you
+but not in the way crushes now work,
+where you scroll through their social media
+and all your friends lurk.
+
+I mean in the way
+that I want to record your laugh,
+play it back to God,
+and thank Him on everyone's behalf.
+
+I mean in the way
+that for you I'd pull myself together,
+deconstruct my worst habits,
+because for you, I'd want to be better.
+
+And consequently, for myself
+you inspire a new perspective.
+You hold up a mirror and tell me
+I should really be more perceptive.
+
+You reflect the best parts of me,
+but hold space for the worst,
+improvising as we go
+because love shouldn't be rehearsed.
+
+Those spaces might fill.
+I might not be who you thought.
+I might be someone better
+than the idea you first bought.
+
+And if you have a crush on me
+the real me, then
+I hope you grab a journal
+and a fully loaded pen,
+
+Write a letter to me and say,
+"I know how this might go.
+I know how this might play out
+but I'm sick of being scared
+of a feeling I really want to know."
+
+Serendipity, they call it,
+as I write a letter too
+to say, "I know how this might go,
+but I have a huge crush on you."
+
+However, only one letter is sent.
+
+I have a crush on you
+in the running through the airport sort of way.
+
+The other is hand-delivered
+and I wouldn't have it any other way.
                         </p>
                     </div>
                 </div>
             </div>
-            <div class="back flex items-center justify-center p-6">
-                <div class="page-content flex items-center justify-center">
-                    <img src="https://images.unsplash.com/photo-1551892589-865f69869476?q=80&w=400" alt="Old jar with buttons" class="max-w-[80%] max-h-[80%] object-contain grayscale opacity-80">
+            <div class="back">
+                <div class="page-content">
+                    <img src="assets/Can’t stop thinking about you.png" alt="Crush" style="width:100%; height:100%; object-fit:cover; object-position:center;">
                 </div>
             </div>
         </div>
-
-        <!-- PAPER 5 (poem 5 & 6) - poem 5 front (scroll), poem 6 back (image) -->
+        
+        <!-- Poem 2: Can't stop thinking about you -->
         <div id="p5" class="paper" style="z-index:6;">
             <div class="front">
                 <div class="page-content">
                     <div class="poem-scroll">
-                        <h3 class="poem-title">V.</h3>
+                        <h3 class="poem-title">Can't stop thinking about you</h3>
                         <p class="poem-text">
-                            The recipe is torn — half a teaspoon?<br>
-                            I add a pinch of memory, a guess.<br>
-                            The cake still rises,<br>
-                            but it tastes like the year you left.<br>
-                            Sweet, but with a sinkhole in the middle.<br>
-                            <br>
-                            I've made it every year since.<br>
-                            2015: too much salt, like tears.<br>
-                            2016: burnt on the bottom,<br>
-                            charcoal, like the news that year.<br>
-                            2017: perfect outside, raw inside —<br>
-                            I gave it to the birds.<br>
-                            <br>
-                            This year, I follow the ghost<br>
-                            of your handwriting, the faded<br>
-                            'add a little love' in the margin.<br>
-                            I add love. I add butter.<br>
-                            I cream them together<br>
-                            until they're light, until they're one.<br>
-                            <br>
-                            The cake rises evenly.<br>
-                            I eat a slice. It's good.<br>
-                            The sinkhole is smaller this year.<br>
-                            Or maybe I've just learned<br>
-                            to eat around it.
+I know, we've only just met, again,
+and I don't mean to move too fast,
+but I couldn't sleep last night
+because I don't know your right now state.
+
+Or how you take your tea.
+
+And for some reason,
+there is nothing in this world
+I'd rather know.
+
+Except maybe
+how your hair looks
+when it's messy in the morning.
+Or what makes you laugh
+until you cry.
+Or what makes you laugh
+when you are crying.
+Either or both.
+Or all of those small, sacred facts
+would be fine.
+
+And I know we've only just met, again,
+and I don't mean to move too fast,
+but I couldn't focus this morning
+because I need to know
+your preference in takeout food,
+and the dreams
+you'd never say out loud
+but secretly wish
+would come true.
+
+And if I were to buy you flowers,
+would you want them to be blue?
+
+And I know we've only just met again,
+and I don't mean to move too fast,
+but suddenly your voice in my head
+is playing on repeat.
+And I'll probably never say
+any of this to you.
+And I should probably
+get some sleep.
+
+It's just that suddenly
+everything that's significant to you
+is significant to me.
                         </p>
                     </div>
                 </div>
             </div>
-            <div class="back flex items-center justify-center p-6">
-                <div class="page-content flex items-center justify-center">
-                    <img src="https://images.unsplash.com/photo-1605127089780-9d81d2d7d363?q=80&w=400" alt="River stones" class="max-w-[80%] max-h-[80%] object-contain grayscale opacity-80">
+            <div class="back">
+                <div class="page-content">
+                    <img src="assets/Nervous.png" alt="Thinking" style="width:100%; height:100%; object-fit:cover; object-position:center;">
                 </div>
             </div>
         </div>
-
-        <!-- PAPER 6 (poem 7 & 8) - poem 7 front (scroll), poem 8 back (image) -->
+        
+        <!-- Poem 3: Nervous -->
         <div id="p6" class="paper" style="z-index:5;">
             <div class="front">
                 <div class="page-content">
                     <div class="poem-scroll">
-                        <h3 class="poem-title">VII.</h3>
+                        <h3 class="poem-title">Nervous</h3>
                         <p class="poem-text">
-                            Grandmother's thimble fits my pinky.<br>
-                            It's silver, worn thin as paper.<br>
-                            I think of her fingers, pushing needles<br>
-                            through linen, through hours,<br>
-                            through two wars. I sew a button.<br>
-                            The thimble is warm.<br>
-                            <br>
-                            She survived the siege by sewing,<br>
-                            hemming officers' trousers for bread,<br>
-                            darning socks for soup.<br>
-                            The thimble protected her,<br>
-                            a small silver helmet<br>
-                            for the fingertip that pushed<br>
-                            through thread, through time.<br>
-                            <br>
-                            Now it protects me<br>
-                            from nothing more than a needle's prick.<br>
-                            But when I wear it, I feel her —<br>
-                            the steady pulse of her hand,<br>
-                            the rhythm of stitch after stitch,<br>
-                            the way she'd pause to look out the window<br>
-                            at whatever war was passing.<br>
-                            <br>
-                            I sew a button. It holds.<br>
-                            The thimble gleams on my pinky,<br>
-                            a small inheritance of perseverance,<br>
-                            passed down through blood, through thread,<br>
-                            through the simple, radical act<br>
-                            of mending what is torn.
+You want me to say it?
+I'll say it.
+
+Being around you makes me nervous.
+
+But if nerves were a pool,
+I would high dive belly flop,
+embarrass myself
+just to try to look cool.
+
+Because you make my heart beat faster.
+You don't mean to.
+I know.
+
+But when I'm next to you,
+why would I care
+to watch any stupid show?
+
+Finish the sentence.
+Look away.
+If I could be next to you,
+I would let my hyperventilation stay.
+
+Because with you, I feel nervous
+but the kind of anxiety
+that turns into humor.
+
+I'm laughing at how ridiculous it was
+that my greatest insecurity
+was being a late bloomer.
+
+You make me shy
+in that way that makes you have to smile
+like I can't look at you for too long
+or my heart grows legs
+to sprint a smile,
+to sprint a mile.
+
+I'm smiling at you.
+I'm blushing.
+You're so pretty, by the way.
+And I would feel pretty lucky
+to remind you of that
+every day.
+
+Being around you makes me jumpy
+in a chaotic sort of calm
+as if a heavy metal rock band
+covered a beautiful, ethereal song.
+
+You make me feel excited.
+Maybe you can tell.
+Because when your knee kisses mine,
+I'm put under a spell
+that starts with <i>Oh God</i>
+and ends with please, <i>no more.</i>
+
+My hands cover my face.
+I've never been giddy like this before.
+So I push my leg closer.
+We're both sitting on the floor,
+challenging the limits of tension
+until we can't take it 
+anymore.
                         </p>
                     </div>
                 </div>
             </div>
-            <div class="back flex items-center justify-center p-6">
-                <div class="page-content flex items-center justify-center">
-                    <img src="https://images.unsplash.com/photo-1517241034903-9a4c3ab12f00?q=80&w=400" alt="Small bird on branch" class="max-w-[80%] max-h-[80%] object-contain grayscale opacity-80">
+            <div class="back">
+                <div class="page-content">
+                    <img src="assets/Beautiful.png" alt="Nervous" style="width:100%; height:100%; object-fit:cover; object-position:center;">
                 </div>
             </div>
         </div>
-
-        <!-- PAPER 7 (poem 9 & 10) - poem 9 front (scroll), poem 10 back (image) -->
+        
+        <!-- Poem 4: Beautiful -->
         <div id="p7" class="paper" style="z-index:4;">
             <div class="front">
                 <div class="page-content">
                     <div class="poem-scroll">
-                        <h3 class="poem-title">IX.</h3>
+                        <h3 class="poem-title">Beautiful</h3>
                         <p class="poem-text">
-                            The key doesn't fit any lock in the house.<br>
-                            I keep it because your fingers touched it.<br>
-                            Some afternoons I hold it, walk from room to room,<br>
-                            trying doors that have always been open.<br>
-                            <br>
-                            It doesn't fit the front door,<br>
-                            the back door, the bedroom,<br>
-                            the small lock on the cabinet<br>
-                            where you kept your letters.<br>
-                            <br>
-                            I've tried the shed, the garage,<br>
-                            the rusty lock on the garden gate.<br>
-                            Nothing.<br>
-                            <br>
-                            Maybe it fits a lock that no longer exists —<br>
-                            a suitcase lost on a train in 1973,<br>
-                            a diary you kept when you were twelve,<br>
-                            a box buried in the yard of a house<br>
-                            that was torn down to build a road.<br>
-                            <br>
-                            Or maybe it doesn't fit anything.<br>
-                            Maybe it's just a key,<br>
-                            beautiful in its uselessness,<br>
-                            warm from your fingers,<br>
-                            warm now from mine.<br>
-                            <br>
-                            I put it back in the drawer.<br>
-                            It lies among the paperclips,<br>
-                            the spare batteries, the stamps,<br>
-                            waiting for a lock<br>
-                            that will never appear.<br>
-                            Waiting, like me,<br>
-                            for a click that won't come.
+I hope that the next person, that calls you beautiful,
+Does so in a way that encompasses all of you.
+
+I hope when they call you beautiful, 
+They mean your voice in the morning,
+Of the light in your eyes,
+When you talk about the things you are passionate about.
+
+I hope when they call you beautiful,
+They mean the way you forget your keys everyday,
+So you say goodbye, twice before you leave.
+
+I hope they mean the way you sleep, 
+The way you cry,
+The way you cough,  
+The way you make your tea,
+The fine way you like to save up,
+The way you stroke your makeup.
+
+I hope they see what lies within you,
+The tender heart,
+The kindness set apart,
+The strength in your walks,
+The fear in your shades,
+And still, accept all of your beauty. 
+
+Because, the next time someone calls you beautiful, 
+Nothing about the way you exist should be disregarded, 
+You are not beautiful in the way a single rose petal is, 
+You are beautiful in the way a garden is. 
+
+
                         </p>
                     </div>
                 </div>
             </div>
-            <div class="back flex items-center justify-center p-6">
-                <div class="page-content flex items-center justify-center">
-                    <img src="https://images.unsplash.com/photo-1534778101976-62847782c213?q=80&w=400" alt="Grey heron by water" class="max-w-[80%] max-h-[80%] object-contain grayscale opacity-80">
+            <div class="back">
+                <div class="page-content">
+                    <img src="assets/Say something nice.png" alt="Beautiful" style="width:100%; height:100%; object-fit:cover; object-position:center;">
                 </div>
             </div>
         </div>
-
-        <!-- PAPER 8 (last sheet – plain end paper) with LOVE below ✧ -->
+        
+        <!-- Poem 5: Say something nice -->
         <div id="p8" class="paper" style="z-index:3;">
+            <div class="front">
+                <div class="page-content">
+                    <div class="poem-scroll">
+                        <h3 class="poem-title">Say something nice</h3>
+                        <p class="poem-text">
+You used to demand it, "say something nice",
+Like a child checking, if the nightlight still worked.
+
+I'd mumble "your hair smells like stolen apples"
+Or "your knee is a compass pointing home"
+Dumb shit that made you snort,
+Then curl into my ribs like a surrendered fist.
+
+Now the silence between us, is the something nice,
+I can't say:
+The way you used to sigh,
+When I got it right, as if kindness surprised you.
+
+I rehearse it in the dark,
+Talking to your ghost on the pillow.
+The words haven't changed.
+Only the ears... that hear them.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="back">
+                <div class="page-content">
+                    <img src="assets/Sunshine.png" alt="Say Something" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Poem 6: Sunshine -->
+        <div id="p9" class="paper" style="z-index:2;">
+            <div class="front">
+                <div class="page-content">
+                    <div class="poem-scroll">
+                        <h3 class="poem-title">Sunshine</h3>
+                        <p class="poem-text">
+I can't promise you sunshine
+every single day.
+But I can promise you this:
+Even in the darkest night,
+my hand
+will never let go of yours.
+
+I love spending time with you
+even if we do nothing at all.
+
+Having you next to me
+is enough
+to make me happy.
+It's not the place.
+It's not the moment.
+It's simply you.
+
+I don't want other lips.
+I don't want other eyes.
+I don't want other hands.
+I don't want anything
+that isn't yours.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="back">
+                <div class="page-content">
+                    <img src="assets/Blank.png" alt="Sunshine" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Chapter B) Whispers - Chapter Page -->
+        <div id="p10" class="paper" style="z-index:1;">
+            <div class="front">
+                <div class="page-content">
+                    <div class="chapter-title">Whispers</div>
+                </div>
+            </div>
+            <div class="back">
+                <div class="page-content">
+                    <img src="assets/Names.png" alt="Whispers" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Poem 7: Names -->
+        <div id="p11" class="paper" style="z-index:0;">
+            <div class="front">
+                <div class="page-content">
+                    <div class="poem-scroll">
+                        <h3 class="poem-title">Names</h3>
+                        <p class="poem-text">
+There was this one phone call.
+I remember your excited voice.
+
+I said, <i>just hypothetically,</i>
+and we couldn't agree on a girl's name
+but we did settle on the boys.
+
+I don't actually want children,
+but for the length of that call,
+it was nice to imagine it.
+
+I remember the scene vividly:
+I was on my balcony,
+swaying in a mind hammock,
+staring at nothing at all.
+
+Beneath my bare feet,
+the street hummed
+vehicles horns blaring,
+air thick with the scent of summer.
+
+The moment felt surreal,
+so I let my thoughts wander
+to places they weren't meant to see.
+
+I actually talked about baby names
+for a child that didn't exist,
+that was never meant to be.
+
+It was heartwarming.
+I know that sounds confusing.
+It is, for me too.
+
+I guess I just love
+discussing baby names with you.
+
+But we had more of those moments
+not just baby talk,
+but soft looks,
+like virtual romantic date nights,
+uncontrolled laughter spilling in between.
+
+I think that's why I couldn't let go.
+I didn't want to lose
+the glow of all those moments.
+
+I wanted my thoughts
+to visit all those beautiful places,
+places they were never meant to see,
+even if they always felt a bit surreal.
+All those beautiful places,
+out now.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="back">
+                <div class="page-content">
+                    <img src="assets/Whole story.png" alt="Names" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Poem 8: Whole story -->
+        <div id="p12" class="paper" style="z-index:-1;">
+            <div class="front">
+                <div class="page-content">
+                    <div class="poem-scroll">
+                        <h3 class="poem-title">Whole story</h3>
+                        <p class="poem-text">
+If I'm being honest,
+you are the best kind of good
+I've ever known.
+
+Sometimes I think about how rare it is
+to find a connection that feels this aligned
+how every part of me
+understands exactly where it's meant to be.
+
+I think about how our paths
+could have crossed a hundred different ways
+and still ended here.
+How the timing somehow worked
+even when everything else didn't.
+
+And I don't think I'll ever stop being thankful
+thankful of what we'd built
+continues to mean something lasting.
+Thankful that what we built together
+keeps giving me a truer view of myself,
+and a future that still feels like ours.
+
+You're not just my lover.
+You're my friend.
+My safe place.
+My everything in one.
+
+With you, I don't have to pretend.
+I can be messy, quiet, loud, soft,
+and still be loved the same.
+You're not a chapter.
+You're the whole story.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="back">
+                <div class="page-content">
+                    <img src="assets/I love you.png" alt="Story" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Poem 9: I love you -->
+        <div id="p13" class="paper" style="z-index:-2;">
+            <div class="front">
+                <div class="page-content">
+                    <div class="poem-scroll">
+                        <h3 class="poem-title">I love you</h3>
+                        <p class="poem-text">
+I knew I loved you
+because you're not just on my mind
+when I'm alone.
+
+I think about you
+even when I'm having
+the time of my life,
+surrounded by people I care about.
+
+And yet,
+I still find myself wishing
+you were there to share it with me.
+
+Whether you see this tonight
+before you close your eyes,
+or in the morning
+when the sun kisses your beautiful face,
+
+I just want you to know:
+I love you.
+
+I love everything about you
+the way you speak,
+your smile,
+that little laugh you do
+when you're trying not to laugh.
+
+I love you completely.
+You've become
+the thought that quiets my mind,
+and the feeling that fills my heart.
+
+Every day, I find new reasons
+to love you
+in the way you care,
+the way you listen,
+the way you simply exist.
+
+You make the world feel gentler,
+and me feel more like myself.
+No matter where life takes us,
+I'll always be grateful
+that our paths found each other
+To you.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="back">
+                <div class="page-content">
+                    <img src="assets/Distance.png" alt="Love" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Poem 10: Distance -->
+        <div id="p14" class="paper" style="z-index:-3;">
+            <div class="front">
+                <div class="page-content">
+                    <div class="poem-scroll">
+                        <h3 class="poem-title">Distance</h3>
+                        <p class="poem-text">
+They say distance makes the heart grow fonder.
+But the longer I love you from afar,
+the more I wonder
+if this phase of bonding apart
+will ever have an end.
+
+If I'll ever be able to take your stress away
+without words,
+because company can speak
+in silence.
+
+And your touch
+when it's near
+never fails to bring me ease.
+
+There are days I count on the minutes,
+and the air I breathe
+tastes bittersweet.
+
+In every room,
+even those with windows,
+I search for a hint of you.
+
+But the fix I need
+is not in proximity.
+I can't just turn a corner to your door,
+or unknot my chest
+that aches from holding your hand
+as close as I can
+until the next time.
+
+I'm a city in the dark,
+lit by artificial lights.
+When you're away,
+I cling to mornings that are bright
+but you are the natural part of my world
+that truly shines.
+And it's just not the same
+when you,
+are out of sight.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="back">
+                <div class="page-content">
+                    <img src="assets/Rocking Chairs.png" alt="Distance" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Poem 11: Rocking chairs -->
+        <div id="p15" class="paper" style="z-index:-4;">
+            <div class="front">
+                <div class="page-content">
+                    <div class="poem-scroll">
+                        <h3 class="poem-title">Rocking chairs</h3>
+                        <p class="poem-text">
+Your words pierce me like needles,
+breaking clean through skin.
+From the outside I look numb,
+but I am stinging from within.
+
+I tell myself that words can't cut
+but yours arrive like sharpened knives,
+whittling at my heartstrings,
+shaving away what I thought was mine.
+
+Sometimes they slice so deeply
+my heart hangs on by a thread.
+But even at their sharpest,
+your words have never left me dead.
+
+Because somehow, through the hurting,
+you make me think of gentler things
+blueprints spread across a table,
+white houses learning how to breathe.
+
+Fenced in yards and wraparound porches,
+backseat laughter, tiny shoes.
+I don't know how pain and hope
+can coexist the way they do with you.
+
+I've always been afraid of tomorrow
+of leaving my twenties behind,
+of misplacing my memories
+as the years slip through my mind.
+
+But you make me imagine staying.
+You make me picture time slowing down
+two rocking chairs, creaking softly,
+as the world forgets to make a sound.
+
+Growing old and losing track together,
+forgetting names, forgetting dates
+but never forgetting this feeling,
+even when my heart still aches.
+
+Your words may carve me open,
+leave me trembling, bruised, and sore
+but they also sketch a future
+I never dared to want before.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="back">
+                <div class="page-content">
+                    <img src="assets/The reason.png" alt="Rocking Chairs" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Poem 12: The reason -->
+        <div id="p16" class="paper" style="z-index:-5;">
+            <div class="front">
+                <div class="page-content">
+                    <div class="poem-scroll">
+                        <h3 class="poem-title">The reason</h3>
+                        <p class="poem-text">
+You are the storm
+I walk into willingly,
+the fire
+I touch without fear of the burn.
+
+You live in the spaces between my thoughts,
+where reason ends
+and longing begins.
+
+You are every heartbeat
+that forgets its rhythm,
+every breath that aches
+just to be near you.
+
+Loving you
+is not a choice
+it is a beautiful kind of madness
+I never want to heal from.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="back">
+                <div class="page-content">
+                    <img src="assets/Blank.png" alt="Reason" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Chapter C) Shadows - Chapter Page -->
+        <div id="p17" class="paper" style="z-index:-6;">
+            <div class="front">
+                <div class="page-content">
+                    <div class="chapter-title">Shadows</div>
+                </div>
+            </div>
+            <div class="back">
+                <div class="page-content">
+                    <img src="assets/Stay.png" alt="Shadows" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Poem 13: Stay -->
+        <div id="p18" class="paper" style="z-index:-7;">
+            <div class="front">
+                <div class="page-content">
+                    <div class="poem-scroll">
+                        <h3 class="poem-title">Stay</h3>
+                        <p class="poem-text">
+Can i stay a little bit longer?
+Just a few more minutes, 
+just until the sun is up.
+Just one more coffee 
+that you bring me to bed in your favourite mug.
+Just one more kiss
+before we agree that this isn't working anymore
+I promise i won't be a bore,
+Just... let me grow stronger.
+
+Can i stay
+a little bit longer?
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="back">
+                <div class="page-content">
+                    <img src="assets/Pain.png" alt="Stay" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Poem 14: Pain -->
+        <div id="p19" class="paper" style="z-index:-8;">
+            <div class="front">
+                <div class="page-content">
+                    <div class="poem-scroll">
+                        <h3 class="poem-title">Pain</h3>
+                        <p class="poem-text">
+They don't send ambulances
+for broken hearts
+
+And when help doesn't come,
+we start to wonder
+if we must break our own bones,
+make the outside reflect
+how it feels within.
+
+Maybe then they'll send help.
+Maybe then they'll listen.
+Maybe then they'll believe us
+when we say
+we hurt.
+
+Why can't the evidence of my ache
+be the way that I feel?
+Why does blood have to spill
+to make my pain look real?
+
+I don't think the world
+should wait for people
+to puncture their skin
+to worry about the trouble within.
+
+I wish we treated broken hearts
+like broken bones
+and sent ambulances
+for bleeding
+souls.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="back">
+                <div class="page-content">
+                    <img src="assets/Sense.png" alt="Pain" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Poem 15: Sense -->
+        <div id="p20" class="paper" style="z-index:-9;">
+            <div class="front">
+                <div class="page-content">
+                    <div class="poem-scroll">
+                        <h3 class="poem-title">Sense</h3>
+                        <p class="poem-text">
+Sometimes you meet someone
+who requires all the love
+you have to give.
+If you lose that someone
+you think... everything else
+is gonnna stop too
+but everything else
+just keeps on going
+
+The worst feeling is...
+When you find out
+you didn't mean to someone
+as much as you thought you did
+And then you just feel stupid
+for caring to much.
+
+I wish i didn't care about anything.
+But i do.
+I care too much.
+
+Sometimes the only reason you won't let go
+of what's making you sad is because...
+it was the only thing that made you happy.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="back">
+                <div class="page-content">
+                    <img src="assets/You & Me.png" alt="Sense" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Poem 16: You & Me -->
+        <div id="p21" class="paper" style="z-index:-10;">
+            <div class="front">
+                <div class="page-content">
+                    <div class="poem-scroll">
+                        <h3 class="poem-title">You & Me</h3>
+                        <p class="poem-text">
+I see you in the sea
+but it's not us,
+it's you and me.
+
+It's me
+missing who we were
+and all the things
+we could have been.
+
+I see you in the sea
+and I wonder
+where you could be.
+
+I hear your voice
+amongst the waves,
+but it's just the water
+roaming free...
+falling, crashing, collapsing
+against the sand,
+the salt, the breeze.
+
+I see you in the sea,
+hear your voice within the wind
+but where the sky
+and ocean collide,
+in their reflection,
+it's just me.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="back">
+                <div class="page-content">
+                    <img src="assets/Are you okay.png" alt="You and Me" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Poem 17: Are you okay? -->
+        <div id="p22" class="paper" style="z-index:-11;">
+            <div class="front">
+                <div class="page-content">
+                    <div class="poem-scroll">
+                        <h3 class="poem-title">Are you okay?</h3>
+                        <p class="poem-text">
+"Are you okay?" they ask.
+
+And I answer too quickly as i can
+before they notice
+the earthquakes in my voice,
+the tsunamis in my eyes,
+the drought stretching
+wide across my heart.
+
+In every room,
+I look for you
+even knowing
+we might exist
+in opposite universes.
+
+I'm suspended somewhere
+between not knowing where you are
+and wanting desperately
+to be there.
+
+I heard you like puzzles.
+So here
+take this jigsaw I call my heart.
+
+It comes in a million broken pieces,
+jagged at the edges,
+missing corners,
+smudged with fingerprints of old fears.
+
+I hope you're patient.
+I hope you're careful.
+I hope you're smart.
+
+And when you place
+the final trembling piece
+into its rightful space,
+I hope you hang me on the wall
+Like an art
+not as something you fixed,
+but something you chose
+to keep whole.
+
+Because I don't want you
+to build me up.
+Just to learn...
+how easily
+I come apart.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="back">
+                <div class="page-content">
+                    <img src="assets/Dancing with your rain.png" alt="Okay" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Poem 18: Dancing with your rain -->
+        <div id="p23" class="paper" style="z-index:-12;">
+            <div class="front">
+                <div class="page-content">
+                    <div class="poem-scroll">
+                        <h3 class="poem-title">Dancing with your rain</h3>
+                        <p class="poem-text">
+In the silence of ocean, 
+Comes crashing waves of tsunami,
+Meanders, then it grapples and locks 
+Your foul, treacherous almighty qualmy. 
+
+You clinch, you slam, 
+You crucifix my soul. 
+Yet you choke me and repopulate, 
+This vile consciousness to make me whole. 
+
+You dust me and play games with me, 
+Stupid me, gets lost in your delight. 
+Show me a way my moonlight, 
+And i shall triumph thy Kryptonite. 
+
+Figment of my imagination, 
+Drag me to the shade in vain. 
+The touch, the beating sound, 
+Lucid music playing in the background.
+Trembling body with excitement,
+Cherry lips, as i approach to make you mine,
+Phase the apparition, 
+fumbling and dancing with your rain.
+
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="back">
+                <div class="page-content">
+                    <img src="assets/Blank.png" alt="Rain" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Chapter D) Hold on - Chapter Page -->
+        <div id="p24" class="paper" style="z-index:-13;">
+            <div class="front">
+                <div class="page-content">
+                    <div class="chapter-title">Hold on</div>
+                </div>
+            </div>
+            <div class="back">
+                <div class="page-content">
+                    <img src="assets/Door.png" alt="Hold On" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Poem 19: Door -->
+        <div id="p25" class="paper" style="z-index:-14;">
+            <div class="front">
+                <div class="page-content">
+                    <div class="poem-scroll">
+                        <h3 class="poem-title">Door</h3>
+                        <p class="poem-text">
+Yes, I believe we could have made it work.
+
+I have loved her more than anything else.
+
+But... for someone who wants to leave,
+You cannot make them stay,
+No matter what you do.
+
+I miss the little things.
+I remember her small habits vividly.
+Tch... I was so eager for her to be my family,
+My wife.
+
+I don't know,
+Each passing day,
+Even now,
+The wound feels fresh,
+As if it were just yesterday, we parted.
+
+I tell myself:
+She is gone.
+I repeat it to myself like a mantra,
+Hoping to someday believe it,
+Really believe
+That the love of my life is not mine anymore.
+
+It feels foolish to cry
+Over someone who was in your past.
+But then I guess,
+I like being a fool
+Who believes
+My love, my soulmate,
+Will come find her way back home.
+
+I am her home.
+
+It's not false hope.
+It's just who I am.
+I love my baby,
+And she is the only one for me.
+
+Even if she doesn't come back,
+It's alright.
+I won't condemn her.
+
+But still,
+I'll leave the door of our home
+Open
+Anyway.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="back">
+                <div class="page-content">
+                    <img src="assets/Bastard.png" alt="Door" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Poem 20: bastard -->
+        <div id="p26" class="paper" style="z-index:-15;">
+            <div class="front">
+                <div class="page-content">
+                    <div class="poem-scroll">
+                        <h3 class="poem-title">bastard</h3>
+                        <p class="poem-text">
+Hundreds of times, 
+I've written the words,
+How are you doing?
+Maybe come back home now?
+And deleted them all the same.
+
+I know I can't be the one to initiate,
+And I wait for the day, that may never come,
+And yet I wait, hoping to see a miracle.
+
+But maybe, I don't need your love in return,
+All I seek is for your heart to be at peace.
+But I am also selfish, 
+loving you is not holding on to you,
+It's about feeling alive, 
+even in the shadows you left with me.
+
+I have loved and I have felt, because of you,
+I have become who I've always wanted to be.
+You're a bastard, you'd say.
+Well, no more an ignorant bastard,
+Somebody who fights for what he loves,
+And I will fight for you, in silence.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="back">
+                <div class="page-content">
+                    <img src="assets/Decade.png" alt="Bastard" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Poem 21: decade -->
+        <div id="p27" class="paper" style="z-index:-16;">
+            <div class="front">
+                <div class="page-content">
+                    <div class="poem-scroll">
+                        <h3 class="poem-title">decade</h3>
+                        <p class="poem-text">
+Fragrance of your smile and laugh
+as though it was just a moment ago.
+reverberates and echoes...
+unable to let go.
+
+Your eyes, your lips, your hair, and your cheeks.
+fills my heart with never-ending peace.
+
+The best thing you are to me...
+here, then swept away like dawn.
+Yet fragments mark, like shrapnel
+etch in the soul begone.
+
+The talks and the waiting
+when rings the call...
+Jolts my body
+in the hopes you've rung.
+
+Your love, your care
+Your patience I've wronged
+Penance and redemption
+One chance please, but you shunned.
+
+Past a decade, yet memories afresh
+My love, you live, full of happiness every day.
+I shall carry our love to the grave
+A decade or two, three or four
+Every year,
+I'll pray for the reunion of the decade.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="back">
+                <div class="page-content">
+                    <img src="assets/Kharayo.png" alt="Decade" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Poem 22: Kharayo -->
+        <div id="p28" class="paper" style="z-index:-17;">
+            <div class="front">
+                <div class="page-content">
+                    <div class="poem-scroll">
+                        <h3 class="poem-title">Kharayo</h3>
+                        <p class="poem-text">
+In the most unexpected of stormy ways,
+Polarized and lost while gazing at the stars.
+You came hoping, one instance, one trick,
+Locked eyes melting and mending my hearts.
+
+The best thing that ever happened to me,
+Naps on my chest and good morning squeak.
+Home rush from work, putting her to bed,
+"say something nice", and nice said this geek.
+
+Ginger tea on a rattling swing,
+Stealthy and courageous was your spirit.
+Feline named kharayo, your bucktooth i looked,
+Goodbye baby,..............
+
+Sometimes when i look at the moon,
+I like to imagine, you are looking too.
+Our gaze is a bridge, from us to the sky,
+And there's an invisible line that connects, 
+you and I.
+And even if i'm miles away from you,
+After sunset, can we meet on the moon?
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="back">
+                <div class="page-content">
+                    <img src="assets/Afloat.png" alt="Kharayo" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Poem 23: Afloat -->
+        <div id="p29" class="paper" style="z-index:-18;">
+            <div class="front">
+                <div class="page-content">
+                    <div class="poem-scroll">
+                        <h3 class="poem-title">Afloat</h3>
+                        <p class="poem-text">
+Although I know you're gone,
+Accepting it feels far more dreadful,
+That living in a bubble of defiance,
+Feels far more comforting.
+
+And like that, I don't know,
+I don't know why I work so hard,
+For whom? For why? It was all for us once,
+"You are my everything, everything I do is for us."
+
+Those laughter and sigh imprinted,
+In the recordings of my Vinyl mind.
+Be it agony or delight,
+Only the tunes of your memories play.
+
+You are not just the love of my life,
+You are the quiet space,
+Between my heartbeats where peace lives,
+I'll lock it up and keep it afloat.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="back">
+                <div class="page-content">
+                    <img src="assets/Friend.png" alt="Afloat" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Poem 24: Friend -->
+        <div id="p30" class="paper" style="z-index:-19;">
+            <div class="front">
+                <div class="page-content">
+                    <div class="poem-scroll">
+                        <h3 class="poem-title">Friend</h3>
+                        <p class="poem-text">
+We're probably not meant for each other,
+But if today you were to call to say YOU NEED ME,
+I don't think the past would matter,
+After all if I could hear your voice shaky,
+If I could sense there's something wrong,
+IF you needed someone to talk to...
+I'd be on the way and say, shouldn't take me too long,
+If you were on the other side of the planet,
+If you were on a completely different star,
+I'd be looking up ways to get to you before you hung up.
+And I'd try, I'd really try to not get there too late.
+
+If your text sounded serious,
+If your voicemail had even just a hint of dread,
+I'd hit that call back button so fast,
+To hear whatever it is that needs to be said.
+If you sounded small, quiet, scared, stressed,
+I'd be the safe place to hear all your secrets confessed.
+If you were excited but nervous,
+If the overthinking had won,
+If your train of thoughts is doing donuts...
+Just say the word and to you...
+I would run
+With whatever you needed, patience, time, courage, safety,
+Your hand held in mine.
+
+If i saw your name pop up and was busy, tired,
+If you said you felt insecure,
+I'd remind you you've always been admired,
+If it's in person and you can't find the words to say,
+How you've been feeling, I'd sit with you in silence,
+Until you feel better any day.
+
+If it's in insta video call to see,
+If you start crying as soon as you look at me,
+I'd hold you so gently so as not to break anything more,
+Then help you see all the times,
+You've made yourself come back even better than before,
+Because if I could hear it,
+The sadness in your voice,
+You'd have about two seconds before I'm all in to help you.
+That will always be, my choice.
+
+Even if we aren't right for each other,
+Even if we're never gonna be meant to be,
+Even if we're just friends forever,
+You're still gonna mean, so much to me.
+
+And if you called and needed something,
+If you were in pain,
+If you were in fear,
+Of course, I'd be there,
+Of course, I am here.
+If you hesitated to call me,
+Don't hesitate, CALL.
+If you think nobody cares...
+Surprise, somebody does afterall.
+
+If you think it's too late,
+It isn't, I'm still here.
+A life worth living isn't a life lived in fear.
+If you are staring at my number,
+Wondering who's on the other side of the line,
+It's still someone who cares about you,
+Thinks of you...
+As your beloved... friend.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="back">
+                <div class="page-content">
+                    <img src="assets/Blank.png" alt="Friend" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Chapter E) Opposite Windows - Chapter Page -->
+        <div id="p31" class="paper" style="z-index:-20;">
+            <div class="front">
+                <div class="page-content">
+                    <div class="chapter-title">Opposite Windows</div>
+                </div>
+            </div>
+            <div class="back">
+                <div class="page-content">
+                    <img src="assets/Maybe.png" alt="Opposite Windows" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Poem 25: Maybe -->
+        <div id="p32" class="paper" style="z-index:-21;">
+            <div class="front">
+                <div class="page-content">
+                    <div class="poem-scroll">
+                        <h3 class="poem-title">Maybe</h3>
+                        <p class="poem-text">
+Someday when you wake up and you realize,
+Maybe not, maybe it doesn't have to be this way.
+Maybe it's alright to let go, to really let go.
+
+Of course, it was small dreams,
+Like playing with her hair on the bed,
+Her small scolds when i mischief,
+The eye when i don't do the dishes,
+Just looking into her eyes and caressing her face,
+Realizing how lucky i was to have her,
+Long sunset hand held walks,
+cuddling and warming up the cold nights,
+The girl who makes me laugh and adore,
+Whose belly i wanna rub when she's annoyed by some silly deed i did,
+For someone I've prayed for,
+My best friend I've longed for.
+
+But maybe, just maybe it's time,
+It's time to say good bye.
+Maybe it's alright to let you live your life,
+While i am still stuck, i'll find a way,
+I'll find a way to be happy again,
+As i was before you,
+Maybe it's time..... to wake up.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="back">
+                <div class="page-content">
+                    <img src="assets/Move on.png" alt="Maybe" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Poem 26: Move on -->
+        <div id="p33" class="paper" style="z-index:-22;">
+            <div class="front">
+                <div class="page-content">
+                    <div class="poem-scroll">
+                        <h3 class="poem-title">Move on</h3>
+                        <p class="poem-text">
+Screenshots and photographs hundreds remain,
+Yet untouched, until today.
+The laughter, the kisses, the whispered goodnights,
+"Say something nice" you'd whisper, all rushed today.
+
+Desires and dreams, once mingled as one,
+our souls entwined, a bond never undone.
+Off track and distant, I lost my way,
+hurt you I did, though I never meant that day.
+
+I'm sorry, truly—you are my all,
+your patience, your grace, worth decades by far.
+I'll wait, yet I must learn to move on,
+rediscover, rewind-my life's reset, begun.
+
+No one has it all,
+But everyone has enough.
+With faith in the unknown,
+Live beautifully, my kharayo.
+in a world that's gentle, not shadowed by sorrow.
+
+I'll search for my own pulsar,
+Goodbye, my star.
+Be seeing you, my love,
+Tea on a porch someday...
+Vibrance and connection, 
+a memento to reminisce,
+my dearest friend, I must move on, 
+but I'll always miss.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="back">
+                <div class="page-content">
+                    <img src="assets/Sunrise.png" alt="Move On" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Poem 27: Sunrise -->
+        <div id="p34" class="paper" style="z-index:-23;">
+            <div class="front">
+                <div class="page-content">
+                    <div class="poem-scroll">
+                        <h3 class="poem-title">Sunrise</h3>
+                        <p class="poem-text">
+I am not here to say
+that love simply stumbles upon us
+like it does in fairy tales.
+
+It does not always bump into everyone.
+It does not always stay.
+
+And life
+life is not all gardens and blooming.
+More often it is weeds,
+and thorns,
+and long, unwatered droughts.
+Most things
+die quietly in winter.
+Most things disappear.
+
+I am not here to say
+that living is painless and easy,
+when breathing itself
+can feel like work.
+With every passing second
+we are also dying
+time gently undoing us
+thread by thread.
+Sometimes the sun setting
+is the only thing keeping us going.
+
+Sometimes the end of the day
+is the only thing giving us strength
+to greet another one.
+
+I am not here to promise perfection.
+Not here to deny
+that we are sometimes broken.
+Not here to pretend
+that we are not always flawed.
+
+But I am here to say this
+
+Our brokenness
+does not have to break us completely.
+Our flaws
+do not have to be failures.
+
+They can be soft reminders
+that we are still here.
+Still daring
+to face another sunrise.
+Still daring
+to let the morning light
+touch these exquisitely imperfect faces
+of these fabulously flawed people
+in this magnificently troubled,
+terribly grand world.
+
+And maybe 
+that is enough.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="back">
+                <div class="page-content">
+                    <img src="assets/Maybe in another.png" alt="Sunrise" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Poem 28: Maybe in another -->
+        <div id="p35" class="paper" style="z-index:-24;">
+            <div class="front">
+                <div class="page-content">
+                    <div class="poem-scroll">
+                        <h3 class="poem-title">Maybe in another</h3>
+                        <p class="poem-text">
+You looked at me
+Like I was a memory still unfolding
+Not past, not present,
+But something quietly unfinished.
+
+We said goodbye
+With the kind of silence
+That feels like it might echo forever
+If no one says your name again.
+
+You said,
+"Maybe in another life,"
+And smiled the way people do
+When they're trying not to cry.
+
+And I thought,
+In that life,
+I would hold your hand a little longer.
+I would ask you to stay a little louder.
+
+Maybe then,
+We wouldn't have to choose
+Between the life we built
+And the one we imagined.
+
+Maybe you'd still call me yours
+In the language we never learned.
+And I'd still whisper
+What I was too afraid to say.
+
+But for now,
+We sit at different windows
+On opposite sides of the world,
+Watching the same sky turn orange
+And trying not to wonder
+Who we might have been
+If we had simply asked
+Be mine, for one more day.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="back">
+                <div class="page-content">
+                    <img src="assets/You.png" alt="Another Life" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Poem 29: You -->
+        <div id="p36" class="paper" style="z-index:-25;">
+            <div class="front">
+                <div class="page-content">
+                    <div class="poem-scroll">
+                        <h3 class="poem-title">You</h3>
+                        <p class="poem-text">
+Today, the world feels gentler
+because you arrived in it.
+
+May this new year hold you softly,
+embrace all of your goals and dreams,
+and return your kindness to you
+in quiet, tender ways.
+
+May it remind you again and again
+that your existence is a gift,
+in itself
+The time celebrates.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="back">
+                <div class="page-content">
+                    <img src="https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?q=80&w=400" alt="You" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Final End Page -->
+        <div id="p37" class="paper" style="z-index:-26;">
             <div class="front plain-end flex items-center justify-center">
                 <div class="page-content flex items-center justify-center">
                     <span class="text-stone-400/40 text-8xl select-none">✻</span>
                 </div>
             </div>
             <div class="back plain-end flex flex-col items-center justify-center">
-                <!-- main star + "Love" exactly as requested -->
                 <span class="text-stone-400/30 text-9xl select-none">✧</span>
                 <span class="love-inscription select-none">Love</span>
             </div>
         </div>
     </div>
-
-    <!-- navigation buttons (prev / next) -->
     <div class="nav-bar">
-        <button class="nav-btn" id="prevBtn" aria-label="previous page">←</button>
+        <button class="nav-btn" id="prevBtn">←</button>
         <span class="text-stone-500 font-serif text-sm tracking-widest opacity-70">19191</span>
-        <button class="nav-btn" id="nextBtn" aria-label="next page">→</button>
+        <button class="nav-btn" id="nextBtn">→</button>
     </div>
-    <div class="text-xs text-stone-500 mt-2 tracking-widest text-center px-2">buttons only — odd pages scroll, even pages show images</div>
 </div>
 
 <script>
-    (function() {
-        const papers = [
-            document.getElementById("p1"),
-            document.getElementById("p2"),
-            document.getElementById("p3"),
-            document.getElementById("p4"),
-            document.getElementById("p5"),
-            document.getElementById("p6"),
-            document.getElementById("p7"),
-            document.getElementById("p8")
-        ];
-        const numOfPapers = papers.length;
-        const maxLocation = numOfPapers + 1;
+(function() {
+    const loader = document.getElementById('loader-overlay');
+    const fillBar = document.getElementById('loader-fill');
+    setTimeout(() => { fillBar.style.width = '100%'; }, 200);
+    setTimeout(() => { loader.style.opacity = '0'; }, 1800);
+    setTimeout(() => { loader.style.display = 'none'; }, 2600);
 
-        let currentLocation = 1;
+    const leftBar = document.getElementById('leftBar');
+    const folderPopup = document.getElementById('folderPopup');
+    const closeFolder = document.getElementById('closeFolderPopup');
+    const folderGridContainer = document.getElementById('folderGridContainer');
+    const detailPageDiv = document.getElementById('folderDetailPage');
+    const detailContent = document.getElementById('detailPageContent');
+    const backToGridBtn = document.getElementById('backToGridBtn');
 
-        function resetZindex() {
-            for (let i = 0; i < papers.length; i++) {
-                papers[i].style.zIndex = (papers.length - i);
-            }
-        }
-        resetZindex();
+    // --- helper to extract youtube id ---
+    function extractYoutubeId(url) {
+        const reg = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+        const match = url.match(reg);
+        return match ? match[1] : null;
+    }
 
-        function openBook() {
-            document.getElementById("book").style.transform = "translateX(35%)";
-        }
-        
-        function closeBook(atBeginning) {
-            document.getElementById("book").style.transform = atBeginning ? "translateX(0%)" : "translateX(75%)";
-        }
+    // --- enhanced folders with WORKING video URLs ---
+    const folders = [
+        { emoji: '🏹', name: 'active you', detail: `<strong>✨ active together ✨</strong><div class="slideshow-container" id="activeSlideshow"><img class="slide-img active" src="https://images.unsplash.com/photo-1599407950931-3deccd4f0d3c?w=400" alt="tennis"><img class="slide-img" src="https://images.unsplash.com/photo-1586227740560-8cf2732c1531?w=400" alt="archery"><img class="slide-img" src="https://images.unsplash.com/photo-1521904612821-8cf5aead7b5a?w=400" alt="iceskating"></div><p style="text-align:center">🎾🏹⛸️ tennis, archery, ice skating — you & me</p>` },
+        { emoji: '🌿', name: 'orchids & lilies', detail: `<div class="flower-guy-animation"><span class="guy-walk">🚶‍♂️💐</span><span>➡️🏡💞</span></div><strong>weekly flower delivery 🌸</strong><br>Every Monday a fresh orchid or lily. Watch him bring flowers:<br><video style="width:100%; border-radius:40px; margin-top:12px;" controls><source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">Your browser does not support video.</video><br><small>(gentle man bringing flowers — sample video)</small>` },
+        { emoji: '📖', name: 'monk who sold...', detail: `<strong>⚡ gist for my favorite reader ⚡</strong><br>The Monk Who Sold His Ferrari: a fable about mindfulness, purpose, and simplifying life. You radiate that calm wisdom. I adore how you devour books — it's the sexiest thing. Let's start a tiny 2-person book club. First up: "The Prophet". 📚` },
+        { emoji: '🎥', name: 'the notebook', detail: `<strong>🎬 our rainy movie nights</strong><div id="moviePlayerArea" style="margin-bottom:12px;"></div><ul class="playlist-songs" id="movieList">
+            <li data-url="https://www.youtube.com/watch?v=FC6biTjEyZw">🎬 The Notebook </li>
+            <li data-url="https://www.youtube.com/watch?v=zSWdZVtXT7E">🌌 Interstellar </li>
+            <li data-url="https://www.youtube.com/watch?v=kA244xewjcI">💫 Past Lives </li>
+            <li data-url="https://www.youtube.com/watch?v=Ades3pQbeh8">🏴‍☠️ One Piece </li>
+        </ul><p><a href="https://hdtodayz.to/movie/watch-the-notebook-hd-19489" target="_blank"></a></p>` },
+        { emoji: '🎶', name: 'calum · classics', detail: `<div id="songPlayerArea" style="margin-bottom:12px;"></div><div class="music-player-ui"><span>🎧 click song to play video</span></div><ul class="playlist-songs" id="playlist">
+            <li data-url="https://www.youtube.com/watch?v=rhDUjzH4hqg&list=RDrhDUjzH4hqg&start_radio=1">🎵 Calum Scott - Flaws</li>
+            <li data-url="https://www.youtube.com/watch?v=Zx2qiuJNmsc">🎵 Calum Scott - You Are The Reason</li>
+            <li data-url="https://www.youtube.com/watch?v=afeisEQa5l8&list=RDafeisEQa5l8&start_radio=1">🎵 Camila Cabello - First Man</li>
+            <li data-url="https://www.youtube.com/watch?v=HGl75kurxok&list=RDHGl75kurxok&start_radio=1">🎵 Ghibili</li>
+            <li data-url="https://www.youtube.com/watch?v=r1Fx0tqK5Z4&list=RDr1Fx0tqK5Z4&start_radio=1">🎵 Sasha Alex Sloan - Older-</li>
+        </ul>` },
+        { emoji: '🧴', name: 'skin care', detail: `<strong>🧖‍♀️ your ritual, your glow</strong><div class="skincare-grid"><div class="skincare-card">🌅 morning: cleanser · vit C · SPF</div><div class="skincare-card">🌙 night: oil cleanser · retinol · ceramide</div><div class="skincare-card">👩 her favorites: Klairs, La Roche-Posay, Cosrx</div><div class="skincare-card">👨 his favorites: Kiehl's, Cerave, simple</div></div><div style="background:#faeadc; border-radius:60px; padding:18px; margin-top:12px"><span>🧴 bathroom shelf: rose water, hyaluronic,茶树油</span></div>` },
+        { emoji: '🍱', name: 'picnic dreams', detail: `<strong>🧺 country picnic itinerary</strong><div class="itinerary-step"><span class="step-text">🚗 10am — drive through lavender fields</span><img class="step-img" src="https://images.unsplash.com/photo-1504194104404-43318077317e?w=200"></div><div class="itinerary-step"><span class="step-text">🧺 12pm — dry picnic: cheese, grapes, sourdough, lemonade</span><img class="step-img" src="https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?w=200"></div><div class="itinerary-step"><span class="step-text">💬 1pm — lying on mat, talking about life, stars, us</span><img class="step-img" src="https://images.unsplash.com/photo-1506784365847-bbad939e9335?w=200"></div><div class="itinerary-step"><span class="step-text">🎲 2pm — board game (we bring Carcassonne)</span><img class="step-img" src="https://images.unsplash.com/photo-1610890716171-6b1bb98ffd09?w=200"></div><div class="itinerary-step"><span class="step-text">🌅 4pm — walk back hand in hand</span><img class="step-img" src="https://images.unsplash.com/photo-1507525425510-1fad3fb0bf72?w=200"></div>` },
+        { emoji: '🩺', name: 'nurse · palliative', detail: `<strong>🕊️ you hold hands when it matters</strong><br>Nearly certified in palliative care — your empathy is infinite. I admire your strength. I'll always be your soft place to land after long shifts. You're a healer.` },
+        { emoji: '📅', name: 'special dates', detail: `<strong>📆 etched in my heart (animated)</strong><div class="timeline-cute"><div class="timeline-item"><span class="date">✨ first kiss · Oct 9</span><div class="desc">maple trees, golden hour</div></div><div class="timeline-item"><span class="date">🎂 birthday 19191</span><div class="desc">forever young, forever mine</div></div><div class="timeline-item"><span class="date">💍 the day you said yes · Nov 3</span><div class="desc">i asked under the stars, you cried happy tears</div></div><div class="timeline-item"><span class="date">🏡 moving in together · June 1</span><div class="desc">our first shelf, first plant</div></div></div>` },
+        { emoji: '📁', name: 'file manager', detail: `<strong>🗂️ organized chaos, labeled love</strong><br>You keep the world tidy — tabs, colour codes, love notes in folders. My heart is a folder named "her". 🗃️💕` },
+        { emoji: '🏡', name: 'home', detail: `<strong>🏠 our future home — mood board</strong><div class="home-mood"><div class="home-card"><span class="home-emoji">🌿</span><br>garden with roses</div><div class="home-card"><span class="home-emoji">🍳</span><br>marble kitchen counter</div><div class="home-card"><span class="home-emoji">🪟</span><br>big white windows</div><div class="home-card"><span class="home-emoji">🛁</span><br>clawfoot bathroom</div></div><div style="background:#fae3d5; border-radius:50px; padding:20px; margin-top:8px; text-align:center"><span>🌸🏡 every morning with you 🌸🏡</span></div>` }
+    ];
 
-        function applyState() {
-            papers.forEach(p => p.classList.remove("flipped"));
+    function renderGrid() {
+        folderGridContainer.innerHTML = '';
+        folders.forEach((f, idx) => {
+            const item = document.createElement('div');
+            item.className = 'folder-item';
+            item.dataset.index = idx;
+            item.innerHTML = `<div class="folder-emoji">${f.emoji}</div><div class="folder-title">${f.name}</div>`;
+            item.addEventListener('click', (e) => {
+                e.stopPropagation();
+                detailContent.innerHTML = f.detail;
+                detailPageDiv.classList.add('show-page');
+                folderGridContainer.style.display = 'none';
 
-            if (currentLocation === 1) {
-                resetZindex();
-                closeBook(true);
-            }
-            else if (currentLocation === maxLocation) {
-                papers.forEach(p => p.classList.add("flipped"));
-                for (let i = 0; i < papers.length; i++) {
-                    papers[i].style.zIndex = i + 1;
-                }
-                closeBook(false);
-            }
-            else {
-                for (let i = 0; i < papers.length; i++) {
-                    if (i < currentLocation - 1) {
-                        papers[i].classList.add("flipped");
-                        papers[i].style.zIndex = 1;
-                    } else {
-                        papers[i].classList.remove("flipped");
-                        papers[i].style.zIndex = papers.length - i;
+                // active you slideshow
+                if (f.name.includes('active')) {
+                    let imgs = document.querySelectorAll('#activeSlideshow .slide-img');
+                    if (imgs.length) {
+                        let idx = 0;
+                        setInterval(() => {
+                            imgs.forEach(img => img.classList.remove('active'));
+                            idx = (idx + 1) % imgs.length;
+                            imgs[idx].classList.add('active');
+                        }, 3000);
                     }
                 }
-                openBook();
-            }
-        }
 
-        function goNext() {
-            if (currentLocation < maxLocation) {
-                currentLocation++;
-                applyState();
-            } else {
-                currentLocation = 1;
-                applyState();
-            }
-        }
+                // calum classics: click on song -> plays in player above
+                if (f.name.includes('calum')) {
+                    const list = document.getElementById('playlist');
+                    const playerArea = document.getElementById('songPlayerArea');
+                    if (list) {
+                        list.querySelectorAll('li').forEach(li => {
+                            li.addEventListener('click', () => {
+                                let url = li.dataset.url;
+                                let videoId = extractYoutubeId(url);
+                                if (videoId && playerArea) {
+                                    playerArea.innerHTML = `<iframe class="youtube-embed" src="https://www.youtube.com/embed/${videoId}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+                                } else if (playerArea) {
+                                    playerArea.innerHTML = `<p class="mini-audio">Video unavailable</p>`;
+                                }
+                            });
+                        });
+                    }
+                }
 
-        function goPrev() {
-            if (currentLocation > 1) {
-                currentLocation--;
-                applyState();
-            } else {
-                currentLocation = maxLocation;
-                applyState();
-            }
-        }
+                // notebook movies: click on movie -> plays trailer above
+                if (f.name.includes('notebook')) {
+                    const list = document.getElementById('movieList');
+                    const playerArea = document.getElementById('moviePlayerArea');
+                    if (list) {
+                        list.querySelectorAll('li').forEach(li => {
+                            li.addEventListener('click', () => {
+                                let url = li.dataset.url;
+                                let videoId = extractYoutubeId(url);
+                                if (videoId && playerArea) {
+                                    playerArea.innerHTML = `<iframe class="movie-embed" src="https://www.youtube.com/embed/${videoId}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+                                } else {
+                                    playerArea.innerHTML = `<p class="mini-audio">Trailer unavailable, but you can watch full movie <a href="https://hdtodayz.to/movie/watch-the-notebook-hd-19489" target="_blank">here</a>.</p>`;
+                                }
+                            });
+                        });
+                    }
+                }
+            });
+            folderGridContainer.appendChild(item);
+        });
+    }
+    renderGrid();
 
-        document.getElementById("prevBtn").addEventListener("click", goPrev);
-        document.getElementById("nextBtn").addEventListener("click", goNext);
+    backToGridBtn.addEventListener('click', () => {
+        detailPageDiv.classList.remove('show-page');
+        folderGridContainer.style.display = 'grid';
+    });
+    leftBar.addEventListener('click', () => {
+        folderPopup.classList.add('show');
+        detailPageDiv.classList.remove('show-page');
+        folderGridContainer.style.display = 'grid';
+    });
+    closeFolder.addEventListener('click', () => folderPopup.classList.remove('show'));
+    window.addEventListener('click', (e) => { if (e.target === folderPopup) folderPopup.classList.remove('show'); });
 
-        applyState();
-    })();
+    // GAME (unchanged)
+    const rightBar = document.getElementById('rightBar');
+    const gamePopup = document.getElementById('gamePopup');
+    const kidIcon = document.getElementById('kidIcon');
+    const gameQuestion = document.getElementById('gameQuestion');
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn = document.getElementById('noBtn');
+    const flowerDiv = document.getElementById('flowerContainer');
+    let step = 0; 
+    const questionText = ['will you be mine?','yes, i\'ll be yours?','yes, i\'ll marry you?','yes, we\'ll be parents together?','yes, i\'ll grow old with you?'];
+    const buttonLabels = ['yes','yes, i\'ll be yours','yes, i\'ll marry you','yes, we\'ll be parents together','yes, i\'ll grow old with you'];
+    rightBar.addEventListener('click', () => {
+        gamePopup.classList.add('show'); step = 0; gameQuestion.innerText = questionText[0]; yesBtn.innerText = buttonLabels[0];
+        kidIcon.innerHTML = '🧒🎈'; flowerDiv.style.display = 'none'; noBtn.style.display = 'inline-block'; noBtn.style.transform = 'scale(1)'; noBtn.style.opacity = '1';
+    });
+    window.addEventListener('click', (e) => { if (e.target === gamePopup) gamePopup.classList.remove('show'); });
+    function shrinkNo() {
+        let currentScale = parseFloat(noBtn.style.transform.replace('scale(', '').replace(')', '') || 1);
+        let newScale = Math.max(0.2, currentScale - 0.18);
+        noBtn.style.transform = `scale(${newScale})`; noBtn.style.opacity = newScale + 0.2;
+        if (newScale <= 0.2) noBtn.style.display = 'none';
+    }
+    yesBtn.addEventListener('click', () => {
+        if (step < 4) { step++; gameQuestion.innerText = questionText[step]; yesBtn.innerText = buttonLabels[step]; shrinkNo(); if (step === 4) { kidIcon.innerHTML = '🧒🎉✨🥳'; flowerDiv.style.display = 'block'; noBtn.style.display = 'none'; } }
+        else { kidIcon.innerHTML = '🧒🎉🌟🥳'; flowerDiv.style.display = 'block'; }
+    });
+    noBtn.addEventListener('click', () => {
+        kidIcon.innerHTML = '😢💧'; setTimeout(() => { kidIcon.innerHTML = '🧒❤️‍🩹'; }, 600);
+        setTimeout(() => { kidIcon.innerHTML = '🧒🎈'; step = 0; gameQuestion.innerText = questionText[0]; yesBtn.innerText = buttonLabels[0]; noBtn.style.transform = 'scale(1)'; noBtn.style.opacity = '1'; noBtn.style.display = 'inline-block'; }, 1800);
+    });
+
+    // book pagination
+    const papers = [
+        document.getElementById("p1"), document.getElementById("p2"), document.getElementById("p3"), 
+        document.getElementById("p4"), document.getElementById("p5"), document.getElementById("p6"), 
+        document.getElementById("p7"), document.getElementById("p8"), document.getElementById("p9"),
+        document.getElementById("p10"), document.getElementById("p11"), document.getElementById("p12"),
+        document.getElementById("p13"), document.getElementById("p14"), document.getElementById("p15"),
+        document.getElementById("p16"), document.getElementById("p17"), document.getElementById("p18"),
+        document.getElementById("p19"), document.getElementById("p20"), document.getElementById("p21"),
+        document.getElementById("p22"), document.getElementById("p23"), document.getElementById("p24"),
+        document.getElementById("p25"), document.getElementById("p26"), document.getElementById("p27"),
+        document.getElementById("p28"), document.getElementById("p29"), document.getElementById("p30"),
+        document.getElementById("p31"), document.getElementById("p32"), document.getElementById("p33"),
+        document.getElementById("p34"), document.getElementById("p35"), document.getElementById("p36"),
+        document.getElementById("p37")
+    ];
+    const numOfPapers = papers.length; const maxLocation = numOfPapers + 1; let currentLocation = 1;
+    function resetZindex() { for (let i = 0; i < papers.length; i++) { papers[i].style.zIndex = (papers.length - i); } }
+    resetZindex();
+    function openBook() { document.getElementById("book").style.transform = "translateX(35%)"; }
+    function closeBook(atBeginning) { document.getElementById("book").style.transform = atBeginning ? "translateX(0%)" : "translateX(75%)"; }
+    function applyState() {
+        papers.forEach(p => p.classList.remove("flipped"));
+        if (currentLocation === 1) { resetZindex(); closeBook(true); }
+        else if (currentLocation === maxLocation) { papers.forEach(p => p.classList.add("flipped")); for (let i=0; i<papers.length; i++) { papers[i].style.zIndex = i+1; } closeBook(false); }
+        else { for (let i=0; i<papers.length; i++) { if (i < currentLocation-1) { papers[i].classList.add("flipped"); papers[i].style.zIndex = 1; } else { papers[i].classList.remove("flipped"); papers[i].style.zIndex = papers.length - i; } } openBook(); }
+    }
+    function goNext() { if (currentLocation < maxLocation) { currentLocation++; applyState(); } else { currentLocation = 1; applyState(); } }
+    function goPrev() { if (currentLocation > 1) { currentLocation--; applyState(); } else { currentLocation = maxLocation; applyState(); } }
+    document.getElementById("prevBtn").addEventListener("click", goPrev);
+    document.getElementById("nextBtn").addEventListener("click", goNext);
+    applyState();
+})();
 </script>
-
 <style>
     .front, .back { background-color: #fdfaf5; }
     .plain-end { background: #eae1d2; }
     .cover-local { background-color: #e8ddc8; }
-    .spine-strip { background: linear-gradient(to right, #cbb99e, #ddd0bb, #cbb99e); }
-    body { background-color: #e7dccc; }
+    #folderPopup, #gamePopup { backdrop-filter: blur(8px); }
+    .birthday-wish-pop:hover { transform: scale(1.05); background: #fadbc8; }
+    .playlist-songs li { cursor: pointer; }
     
+    /* Additional scrolling styles from reference */
     .page-content {
         height: 100%;
         width: 100%;
@@ -752,6 +2195,21 @@
     
     .poem-text:last-child {
         padding-bottom: 30px;
+    }
+    
+    /* Chapter title styling */
+    .chapter-title {
+        font-family: 'Italianno', cursive;
+        font-size: 4rem;
+        color: #8b6f5c;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+        padding: 20px;
+        background: #fdfaf5;
     }
 </style>
 </body>
