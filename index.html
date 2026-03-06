@@ -317,362 +317,97 @@
             .poem-title { font-size: 1.5rem; }
         }
 
-        /* ===== MOBILE RESPONSIVE ADDITIONS ===== */
-        @media screen and (max-width: 768px) {
-            body {
-                padding: 8px 4px;
-            }
-
-            /* Side bars - reposition for mobile */
-            .side-bar {
-                width: 45px;
-                height: 140px;
-                top: 40%;
-                padding: 12px 0;
-            }
-            
-            .side-bar.left { left: 4px; }
-            .side-bar.right { right: 4px; }
-            
-            .bar-emoji {
-                font-size: 1.5rem;
-            }
-
-            /* Birthday wish popup - smaller on mobile */
-            .birthday-wish-pop {
-                bottom: 10px;
-                left: 10px;
-                font-size: 1.8rem;
-                padding: 8px 18px;
-            }
-
-            /* Folder popup adjustments */
-            .folder-popup {
-                padding: 18px 16px;
-                width: 95%;
-                max-height: 85vh;
-            }
-            
-            .popup-header h3 {
-                font-size: 1.8rem;
-            }
-            
-            .folder-grid {
-                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-                gap: 12px;
-            }
-            
-            .folder-item {
-                padding: 12px 4px;
-            }
-            
-            .folder-emoji {
-                font-size: 2.2rem;
-            }
-            
-            .folder-title {
-                font-size: 0.8rem;
-            }
-
-            /* Itinerary steps stack on mobile */
-            .itinerary-step {
-                flex-direction: column;
-                text-align: center;
-                padding: 16px;
-                gap: 12px;
-            }
-            
-            .step-text {
-                font-size: 1rem;
-            }
-            
-            .step-img {
-                max-width: 100px;
-                width: 100%;
-            }
-
-            /* Skincare grid single column on very small screens */
-            .skincare-grid {
-                grid-template-columns: 1fr;
-                gap: 12px;
-            }
-
-            /* Home mood cards */
-            .home-mood {
-                gap: 12px;
-            }
-            
-            .home-card {
-                width: calc(50% - 12px);
-                min-width: 110px;
-                padding: 14px 8px;
-            }
-            
-            .home-emoji {
-                font-size: 2.8rem;
-            }
-
-            /* Timeline */
-            .timeline-cute {
-                padding-left: 12px;
-                gap: 12px;
-            }
-            
-            .timeline-item {
-                padding: 14px 16px;
-            }
-            
-            .timeline-item .date {
-                font-size: 1.3rem;
-            }
-
-            /* Game popup */
-            .game-popup {
-                padding: 20px 12px;
-            }
-            
-            .celebrate-kid {
-                font-size: 4rem;
-            }
-            
-            .game-question {
-                font-size: 2.2rem;
-            }
-            
-            .game-buttons {
-                gap: 10px;
-            }
-            
-            .game-btn {
-                min-width: 120px;
-                padding: 10px 16px;
-                font-size: 1rem;
-            }
-
-            /* Flower guy animation */
-            .flower-guy-animation {
-                font-size: 2.5rem;
-                padding: 8px 16px;
-                gap: 10px;
-            }
-
-            /* Music and movie players */
-            .music-player-ui, .movie-player-ui {
-                padding: 12px;
-                gap: 10px;
-            }
-            
-            .playlist-songs li {
-                padding: 8px 14px;
-                font-size: 0.9rem;
-            }
-
-            /* Slideshow */
-            .slideshow-container {
-                height: 200px;
-            }
-            
-            .slide-img {
-                height: 200px;
-            }
-
-            /* YouTube embeds */
-            .youtube-embed, .movie-embed {
-                height: 200px;
-            }
-
-            /* Navigation bar */
-            .nav-bar {
-                gap: 15px;
-                padding: 8px 20px;
-            }
-            
-            .nav-btn {
-                width: 50px;
-                height: 50px;
-                font-size: 1.8rem;
-            }
-            
-            .nav-bar span {
-                font-size: 0.8rem;
-            }
-
-            /* Book adjustments for very small screens */
-            :root {
-                --book-width: min(380px, 94vw);
-                --book-height: min(580px, 135vw);
-            }
-            
-            .book {
-                margin: 4px auto;
-            }
-
-            /* Chapter title */
-            .chapter-title {
-                font-size: 3rem;
-                padding: 15px;
-            }
-
-            /* Love inscription */
-            .love-inscription {
-                font-size: 2.5rem;
+        /* ---------- ROTATE OVERLAY FOR PORTRAIT MOBILE ---------- */
+        .rotate-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #f6ede4;
+            background-image: radial-gradient(circle at 30% 40%, rgba(215,185,160,0.3) 2px, transparent 2px);
+            background-size: 30px 30px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-family: 'Italianno', cursive;
+            color: #5f473a;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0s 0.5s;
+            backdrop-filter: blur(6px);
+            padding: 20px;
+            box-sizing: border-box;
+            pointer-events: none;
+        }
+        .rotate-overlay.show {
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.5s ease, visibility 0s 0s;
+            pointer-events: all;
+        }
+        .rotate-phone {
+            font-size: 8rem;
+            animation: spinHint 2.2s infinite cubic-bezier(0.4, 0.0, 0.2, 1);
+            display: inline-block;
+            filter: drop-shadow(0 12px 12px rgba(130,90,60,0.2));
+            margin-bottom: 20px;
+        }
+        .rotate-message {
+            font-size: 3.2rem;
+            line-height: 1.3;
+            background: rgba(255,245,235,0.7);
+            padding: 18px 36px;
+            border-radius: 120px;
+            box-shadow: 0 20px 30px rgba(100,60,30,0.1);
+            border: 3px solid #fad5be;
+            max-width: 90%;
+        }
+        .rotate-message small {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2rem;
+            display: block;
+            margin-top: 12px;
+            color: #956b58;
+        }
+        @keyframes spinHint {
+            0% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(90deg) scale(1.1); }
+            50% { transform: rotate(180deg) scale(1); }
+            75% { transform: rotate(270deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+        /* only show on screens up to 900px width and in portrait orientation */
+        @media only screen and (max-width: 900px) and (orientation: portrait) {
+            .rotate-overlay {
+                display: flex; /* ensured by class toggling, but base visible if class added */
             }
         }
-
-        /* Extra small devices */
-        @media screen and (max-width: 480px) {
-            .side-bar {
-                width: 38px;
-                height: 120px;
-            }
-            
-            .bar-emoji {
-                font-size: 1.2rem;
-            }
-            
-            .birthday-wish-pop {
-                font-size: 1.5rem;
-                padding: 6px 14px;
-            }
-            
-            .folder-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .home-card {
-                width: 100%;
-            }
-            
-            .game-btn {
-                min-width: 100px;
-                font-size: 0.9rem;
-                padding: 8px 12px;
-            }
-            
-            .celebrate-kid {
-                font-size: 3.5rem;
-            }
-            
-            .game-question {
-                font-size: 2rem;
-            }
-            
-            .popup-header h3 {
-                font-size: 1.5rem;
-            }
-            
-            .close-popup {
-                font-size: 2.2rem;
-            }
-            
-            .back-to-grid {
-                font-size: 0.9rem;
-                padding: 6px 16px;
-            }
-            
-            .slideshow-container {
-                height: 160px;
-            }
-            
-            .slide-img {
-                height: 160px;
-            }
-            
-            .youtube-embed, .movie-embed {
-                height: 160px;
-            }
-            
-            .nav-btn {
-                width: 42px;
-                height: 42px;
-                font-size: 1.5rem;
-            }
-            
-            .chapter-title {
-                font-size: 2.5rem;
-            }
-            
-            .love-inscription {
-                font-size: 2rem;
-            }
-            
-            .poem-title {
-                font-size: 1.3rem;
-            }
-            
-            .poem-text {
-                font-size: 0.9rem;
-                line-height: 1.7;
-            }
-            
-            .poem-text::first-letter {
-                font-size: 2rem;
+        @media only screen and (min-width: 901px) {
+            .rotate-overlay {
+                display: none !important;
             }
         }
-
-        /* Handle landscape orientation on mobile */
-        @media screen and (max-height: 600px) and (orientation: landscape) {
-            .side-bar {
-                height: 100px;
-                top: 30%;
-            }
-            
-            .folder-popup {
-                max-height: 80vh;
-            }
-            
-            .book {
-                --book-height: min(480px, 80vh);
-            }
-            
-            .slideshow-container {
-                height: 150px;
-            }
-            
-            .slide-img {
-                height: 150px;
-            }
-            
-            .youtube-embed, .movie-embed {
-                height: 150px;
-            }
-        }
-
-        /* Touch-friendly hover states */
-        @media (hover: none) and (pointer: coarse) {
-            .folder-item:hover {
-                transform: none;
-                box-shadow: 0 6px 0 #dbbca5;
-            }
-            
-            .folder-item:active {
-                transform: translateY(-4px);
-                box-shadow: 0 10px 0 #dbbca5;
-            }
-            
-            .playlist-songs li:hover {
-                background: #fff0e0;
-                transform: none;
-            }
-            
-            .playlist-songs li:active {
-                background: #f2ddcf;
-                transform: translateX(4px);
-            }
-            
-            .nav-btn:hover {
-                background: rgba(90, 110, 90, 0.06);
-                transform: none;
-            }
-            
-            .nav-btn:active {
-                transform: scale(0.96);
-                background: rgba(90, 110, 90, 0.16);
+        @media only screen and (orientation: landscape) {
+            .rotate-overlay {
+                opacity: 0 !important;
+                visibility: hidden !important;
+                transition: opacity 0.3s ease, visibility 0s 0.3s;
+                pointer-events: none;
             }
         }
     </style>
 </head>
 <body>
+<!-- ROTATE OVERLAY – appears only on mobile portrait (controlled by JS + media query) -->
+<div id="rotateOverlay" class="rotate-overlay">
+    <div class="rotate-phone">📱↻</div>
+    <div class="rotate-message">
+        rotate your screen<br>
+        <small>landscape mode for the full story 🌸</small>
+    </div>
+</div>
+
 <div id="loader-overlay"><img src="https://images.unsplash.com/photo-1596438459194-f275f413d6ff?q=80&w=400" class="loader-img"><div class="loader-caption">For the most incredible woman</div><div class="loader-bar-bg"><div class="loader-bar-fill" id="loader-fill"></div></div></div>
 <div class="birthday-wish-pop" id="birthdayWish">🥳 happy 19191 birthday!</div>
 <div class="side-bar left" id="leftBar"><span class="bar-emoji">📁</span><span class="bar-emoji">🌸</span><span class="bar-emoji">🎀</span></div>
@@ -2522,6 +2257,27 @@ The time celebrates.
     document.getElementById("prevBtn").addEventListener("click", goPrev);
     document.getElementById("nextBtn").addEventListener("click", goNext);
     applyState();
+
+    // ---------- ROTATE OVERLAY LOGIC (mobile portrait) ----------
+    const rotateOverlay = document.getElementById('rotateOverlay');
+    function checkOrientation() {
+        if (!rotateOverlay) return;
+        // only apply to screens with max-width 900px (mobile portrait range)
+        if (window.innerWidth <= 900) {
+            if (window.matchMedia("(orientation: portrait)").matches) {
+                rotateOverlay.classList.add('show');
+            } else {
+                rotateOverlay.classList.remove('show');
+            }
+        } else {
+            rotateOverlay.classList.remove('show'); // larger screens always hide
+        }
+    }
+    window.addEventListener('resize', checkOrientation);
+    window.addEventListener('orientationchange', function() {
+        setTimeout(checkOrientation, 50);
+    });
+    checkOrientation();
 })();
 </script>
 <style>
