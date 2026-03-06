@@ -2065,6 +2065,32 @@ The time celebrates.
 </div>
 
 <script>
+
+    // Prevent mobile from crashing on missing images
+window.addEventListener('error', function(e) {
+    if (e.target.tagName === 'IMG') {
+        console.log('Image failed to load:', e.target.src);
+        e.target.style.display = 'none'; // Hide broken images
+        e.preventDefault(); // Stop the error from bubbling
+        return true;
+    }
+}, true);
+
+// Wrap critical functions in try-catch
+function safeExecute(fn) {
+    try {
+        return fn();
+    } catch (e) {
+        console.warn('Function failed but continuing:', e);
+        return null;
+    }
+}
+
+// Then wrap your existing initialization
+safeExecute(function() {
+    // Your existing code for folders, game, book pagination
+    // ... all the current JavaScript ...
+});
 (function() {
     const loader = document.getElementById('loader-overlay');
     const fillBar = document.getElementById('loader-fill');
